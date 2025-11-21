@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using RMSHOP.DAL.Data;
+
 namespace RMSHOP.PL
 {
     public class Program
@@ -12,6 +15,19 @@ namespace RMSHOP.PL
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            //way1
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //options.UseSqlServer(builder.Configuration["ConnectionStrings: DefaultConnection"]));
+
+            //way2
+            //  builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]));
+
+            //way3
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
             var app = builder.Build();
 
