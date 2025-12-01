@@ -7,13 +7,15 @@ using RMSHOP.BLL.Service;
 using RMSHOP.DAL.Data;
 using RMSHOP.DAL.Models;
 using RMSHOP.DAL.Repository;
+using RMSHOP.DAL.Utils;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace RMSHOP.PL
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -64,8 +66,7 @@ namespace RMSHOP.PL
                 {
                     QueryStringKey = "lang"
                 });
-
-
+                 
             });
 
             //Swagger
@@ -77,6 +78,9 @@ namespace RMSHOP.PL
             builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
             // ICategoryService dependency Injection
             builder.Services.AddScoped<ICategoryService,CategoryService>();
+            //SeedData
+            builder.Services.AddScoped<ISeedData, RoleSeedData>();
+            builder.Services.AddScoped<ISeedData, UserSeedData>();
 
 
             var app = builder.Build();
@@ -97,6 +101,17 @@ namespace RMSHOP.PL
 
             app.UseAuthorization();
 
+            // add SeedData
+            using (var scope =app.Services.CreateScope()) 
+            {
+                var services= scope.ServiceProvider;
+                //create 2 objects
+                var seeders = services.GetServices<ISeedData>();
+                foreach (var seeder in seeders) 
+                {
+                    await seeder.DataSeed();
+                }
+            }
 
             app.MapControllers();
 

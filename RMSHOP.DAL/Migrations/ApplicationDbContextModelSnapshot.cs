@@ -246,7 +246,7 @@ namespace RMSHOP.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("RMSHOP.DAL.Models.CategoryTranslation", b =>
@@ -272,7 +272,7 @@ namespace RMSHOP.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoriesTranslation");
+                    b.ToTable("CategoriesTranslation", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
