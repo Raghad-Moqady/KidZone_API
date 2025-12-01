@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using RMSHOP.BLL.Service;
+using RMSHOP.BLL.Service.Identity;
 using RMSHOP.DAL.Data;
 using RMSHOP.DAL.Models;
 using RMSHOP.DAL.Repository;
@@ -81,6 +82,9 @@ namespace RMSHOP.PL
             //SeedData
             builder.Services.AddScoped<ISeedData, RoleSeedData>();
             builder.Services.AddScoped<ISeedData, UserSeedData>();
+
+            //Authentication
+            builder.Services.AddScoped<IAuthenticationService,AuthenticationService>();
 
 
             var app = builder.Build();

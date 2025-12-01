@@ -1,0 +1,18 @@
+﻿using RMSHOP.DAL.DTO.Request;
+using RMSHOP.DAL.DTO.Response;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RMSHOP.BLL.Service.Identity
+{
+    public interface IAuthenticationService
+    {
+        //Register
+        Task<RegisterResponse> RegisterAsync(RegisterRequest request);
+
+        //LogIn
+    }
+}
