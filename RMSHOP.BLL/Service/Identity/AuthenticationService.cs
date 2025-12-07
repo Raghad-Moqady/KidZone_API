@@ -20,6 +20,50 @@ namespace RMSHOP.BLL.Service.Identity
             _userManager = userManager;
         }
 
+        public async Task<LoginResponse> LoginAsync(LoginRequest request)
+        {
+            //request >> Email & Password
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(request.Email);
+                if (user is null) {
+                    //400
+                    return new LoginResponse()
+                    {
+                        Success = false,
+                        Message = "Invalid Email !",
+                    };
+                }
+                var result = await _userManager.CheckPasswordAsync(user, request.Password);
+                if(!result)
+                {
+                    //400
+                    return new LoginResponse()
+                    {
+                        Success = false,
+                        Message = "Invalid Password !",
+                    };
+                }
+                //200
+                return new LoginResponse()
+                {
+                    Success = true,
+                    Message = "Login Successfully",
+                };
+            }
+            catch (Exception ex) {
+                //500
+                return new LoginResponse()
+                {
+                    Success = false,
+                    UnexpectedErrorFlag = true,
+                    Message = "An Unexpected error !",
+                    Errors = new List<string> { ex.Message }
+                };
+            
+            }
+        }
+
         //Domain Model is >> ApplicationUser:IdentityUser
         //DTO >> RegisterRequest
         public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)

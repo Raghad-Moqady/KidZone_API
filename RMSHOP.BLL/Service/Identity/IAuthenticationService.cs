@@ -14,5 +14,6 @@ namespace RMSHOP.BLL.Service.Identity
         Task<RegisterResponse> RegisterAsync(RegisterRequest request);
 
         //LogIn
+        Task<LoginResponse> LoginAsync(LoginRequest request);
     }
 }

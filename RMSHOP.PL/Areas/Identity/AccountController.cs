@@ -16,17 +16,36 @@ namespace RMSHOP.PL.Areas.Identity
             _authenticationService = authenticationService;
         }
 
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            var response= await _authenticationService.LoginAsync(request);
+            //500
+            if (response.UnexpectedErrorFlag)
+            {
+                return StatusCode(500, response);
+            }
+
+            //400
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            //200
+            return Ok(response);
+
+        }
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterRequest request) {
           var response=await _authenticationService.RegisterAsync(request);
-            //400
-            if (!response.Success) {
-                 return BadRequest(response);
-            }
             //500
             if (response.UnexpectedErrorFlag) {
                 return StatusCode(500, response);
+            }
+            //400
+            if (!response.Success) {
+                 return BadRequest(response);
             }
             //200
             return Ok(response);
