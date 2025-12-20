@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMSHOP.DAL.Repository
+namespace RMSHOP.DAL.Repository.Categories
 {
     public class CategoryRepository:ICategoryRepository
     {

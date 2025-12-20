@@ -2,14 +2,14 @@
 using RMSHOP.DAL.DTO.Request;
 using RMSHOP.DAL.DTO.Response;
 using RMSHOP.DAL.Models;
-using RMSHOP.DAL.Repository;
+using RMSHOP.DAL.Repository.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMSHOP.BLL.Service
+namespace RMSHOP.BLL.Service.Categories
 {
     public class CategoryService: ICategoryService
     {

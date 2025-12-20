@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMSHOP.BLL.Service
+namespace RMSHOP.BLL.Service.Categories
 {
     public interface ICategoryService
     {
