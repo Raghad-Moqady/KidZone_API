@@ -21,13 +21,15 @@ namespace RMSHOP.BLL.Service.Identity
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailSender _emailSender;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AuthenticationService(UserManager<ApplicationUser> userManager, IConfiguration configuration
-            ,IEmailSender emailSender)
+            ,IEmailSender emailSender , SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _configuration = configuration;
             _emailSender = emailSender;
+            _signInManager = signInManager;
         }
 
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
@@ -36,6 +38,8 @@ namespace RMSHOP.BLL.Service.Identity
             try
             {
                 var user = await _userManager.FindByEmailAsync(request.Email);
+
+                //check Email/user exist or not
                 if (user is null) {
                     //400
                     return new LoginResponse()
@@ -44,8 +48,34 @@ namespace RMSHOP.BLL.Service.Identity
                         Message = "Invalid Email !",
                     };
                 }
-                var result = await _userManager.CheckPasswordAsync(user, request.Password);
-                if(!result)
+                //here user is exist => what about Lockout?
+                if (await _userManager.IsLockedOutAsync(user)) {
+                    //400
+                    return new LoginResponse()
+                    {
+                        Success = false,
+                        Message = "Account is locked , try again later",
+                    };
+                }
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
+                if (result.IsLockedOut) {
+                    //400
+                    return new LoginResponse()
+                    {
+                        Success = false,
+                        Message = "Account is locked due to multiple failed attempts",
+                    };
+                }else if (result.IsNotAllowed)
+                {
+                    //400
+                    return new LoginResponse()
+                    {
+                        Success = false,
+                        Message = "Plz confirm your email",
+                    };
+                }
+                if(!result.Succeeded)
                 {
                     //400
                     return new LoginResponse()
