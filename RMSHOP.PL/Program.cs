@@ -174,7 +174,7 @@ namespace RMSHOP.PL
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             // add SeedData
