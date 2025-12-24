@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Numerics;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -186,7 +187,7 @@ namespace RMSHOP.BLL.Service.Identity
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        //ConfirmEmail
+        //ConfirmEmail step2
         public async Task<string> ConfirmEmailAsync(string token, string userId)
         {
             var user= await _userManager.FindByIdAsync(userId);
@@ -198,7 +199,7 @@ namespace RMSHOP.BLL.Service.Identity
             return "Email confirmed successfully"; 
         }
 
-        //Send Code 
+        //Send Code step1
         public  async Task<SendCodeResponse> SendCodeAsync(SendCodeRequest request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
@@ -245,7 +246,7 @@ namespace RMSHOP.BLL.Service.Identity
         }
 
 
-        //Reset Password
+        //Reset Password step2
         public async Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request)
         {
             //Check Email
@@ -267,7 +268,7 @@ namespace RMSHOP.BLL.Service.Identity
                 return new ResetPasswordResponse()
                 {
                     Success = false,
-                    Message = "Invalid Code"
+                    Message = "This reset code is invalid or has already been used. Please request a new code."
                 };
             }
             //2.
@@ -310,6 +311,10 @@ namespace RMSHOP.BLL.Service.Identity
                 </div>
                 "
                 );
+
+            // Clear reset code after use to prevent reuse
+            user.CodeResetPassword = null;
+            await _userManager.UpdateAsync(user);
 
             //200
             return new ResetPasswordResponse()
