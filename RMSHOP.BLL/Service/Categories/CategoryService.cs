@@ -31,6 +31,44 @@ namespace RMSHOP.BLL.Service.Categories
             return response.Adapt<CategoryResponse>();
          }
 
+
+        public async Task<BaseResponse> UpdateCategoryPutAsync(int id, CategoryRequest request)
+        {
+            try
+            {
+                var category = await _categoryRepository.FindByIdAsync(id);
+                if (category is null)
+                {
+                    //404
+                    return new BaseResponse()
+                    {
+                        Success = false,
+                        Message = "Category Not Found",
+                    };
+                }
+                category.Translations = request.Translations.Adapt<List<CategoryTranslation>>();
+                await _categoryRepository.UpdateCategoryPutAsync();
+
+                //200
+                return new BaseResponse()
+                {
+                    Success = true,
+                    Message = "Category Updated Successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                //500
+                return new BaseResponse()
+                {
+                    Success = false,
+                    UnexpectedErrorFlag = true,
+                    Message = "Unexpected Error!",
+                    Errors = new List<string> { ex.Message }
+                };
+            }
+        }
         public async Task<BaseResponse> DeleteCategoryAsync(int id)
         {
             try
@@ -66,5 +104,6 @@ namespace RMSHOP.BLL.Service.Categories
 
             } 
         }
+
     }
 }

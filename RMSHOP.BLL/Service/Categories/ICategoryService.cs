@@ -1,4 +1,5 @@
-﻿using RMSHOP.DAL.DTO.Request;
+﻿using Azure.Core;
+using RMSHOP.DAL.DTO.Request;
 using RMSHOP.DAL.DTO.Response;
 using RMSHOP.DAL.Models;
 using System;
@@ -19,5 +20,9 @@ namespace RMSHOP.BLL.Service.Categories
 
         //Delete
         Task<BaseResponse> DeleteCategoryAsync(int id);
+
+        //Update (Put way)
+        Task<BaseResponse> UpdateCategoryPutAsync(int id,CategoryRequest request);
+
     }
 }
