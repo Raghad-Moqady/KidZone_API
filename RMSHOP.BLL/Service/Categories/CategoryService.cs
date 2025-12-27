@@ -46,7 +46,7 @@ namespace RMSHOP.BLL.Service.Categories
                     };
                 }
                 category.Translations = request.Translations.Adapt<List<CategoryTranslation>>();
-                await _categoryRepository.UpdateCategoryPutAsync(category);
+                await _categoryRepository.UpdateCategoryAsync(category);
 
                 //200
                 return new BaseResponse()
@@ -112,7 +112,7 @@ namespace RMSHOP.BLL.Service.Categories
                         }
                     } 
 
-                await _categoryRepository.UpdateCategoryPatchAsync(category); 
+                await _categoryRepository.UpdateCategoryAsync(category); 
                 //200
                 return new BaseResponse()
                 {
@@ -170,5 +170,43 @@ namespace RMSHOP.BLL.Service.Categories
             } 
         }
 
+        public async Task<BaseResponse> ToggleStatusAsync(int id)
+        {
+            try
+            {
+                var category = await _categoryRepository.FindByIdAsync(id);
+                if (category is null)
+                {
+                    //404
+                    return new BaseResponse()
+                    {
+                        Success = false,
+                        Message = "Category Not Found",
+                    };
+                }
+                category.Status = category.Status == Status.Active ? Status.InActive : Status.Active;
+                await _categoryRepository.UpdateCategoryAsync(category);
+
+                //200
+                return new BaseResponse()
+                {
+                    Success = true,
+                    Message = "Category Status Toggled Successfully"
+                };
+
+            }
+            catch(Exception ex)
+            {
+                //500
+                return new BaseResponse()
+                {
+                    Success = false,
+                    UnexpectedErrorFlag = true,
+                    Message = "Unexpected Error!",
+                    Errors = new List<string> { ex.Message }
+                };
+
+            }
+        }
     }
 }

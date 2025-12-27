@@ -76,6 +76,28 @@ namespace RMSHOP.PL.Areas.Admin
             return Ok(response);
         }
 
+
+        [HttpPatch("toggle-status/{id}")]
+        public async Task<IActionResult> ToggleStatus([FromRoute] int id)
+        {
+            var response = await _categoryService.ToggleStatusAsync(id);
+            //500
+            if (response.UnexpectedErrorFlag)
+            {
+                return StatusCode(500, response);
+            }
+            //404
+            else if (!response.Success)
+            {
+                if (response.Message.Contains("Not Found"))
+                {
+                    return NotFound(response);
+                }
+            }
+            //200
+            return Ok(response);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory([FromRoute] int id)
         {
