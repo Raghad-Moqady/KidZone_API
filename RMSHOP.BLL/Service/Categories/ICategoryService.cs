@@ -24,5 +24,8 @@ namespace RMSHOP.BLL.Service.Categories
         //Update (Put way)
         Task<BaseResponse> UpdateCategoryPutAsync(int id,CategoryRequest request);
 
+        //Update (Patch way)
+        Task<BaseResponse> UpdateCategoryPatchAsync(int id, CategoryRequest request);
+
     }
 }

@@ -50,6 +50,31 @@ namespace RMSHOP.PL.Areas.Admin
             return Ok(response);
          }
 
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateCategoryPatch([FromRoute] int id, [FromBody] CategoryRequest request)
+        {
+            var response = await _categoryService.UpdateCategoryPatchAsync(id, request);
+            //500
+            if (response.UnexpectedErrorFlag)
+            {
+                return StatusCode(500, response);
+            }
+            else if (!response.Success)
+            {
+                if (response.Message.Contains("Not Found"))
+                {
+                    //404
+                    return NotFound(response);
+                }else
+                {
+                    //400
+                    return BadRequest(response);
+                }
+            }
+            //200
+            return Ok(response);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory([FromRoute] int id)
         {

@@ -47,5 +47,11 @@ namespace RMSHOP.DAL.Repository.Categories
             _context.Update(category);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateCategoryPatchAsync(Category category)
+        {
+            _context.Update(category);
+            await _context.SaveChangesAsync();
+        }
     }
 }

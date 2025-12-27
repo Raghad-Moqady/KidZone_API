@@ -38,6 +38,27 @@
   },
   {
     "ContainingType": "RMSHOP.PL.Areas.Admin.CategoriesController",
+    "Method": "UpdateCategoryPatch",
+    "RelativePath": "api/admin/Categories/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "RMSHOP.DAL.DTO.Request.CategoryRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RMSHOP.PL.Areas.Admin.CategoriesController",
     "Method": "DeleteCategory",
     "RelativePath": "api/admin/Categories/{id}",
     "HttpMethod": "DELETE",

@@ -69,6 +69,72 @@ namespace RMSHOP.BLL.Service.Categories
                 };
             }
         }
+
+        public async Task<BaseResponse> UpdateCategoryPatchAsync(int id, CategoryRequest request)
+        {
+            try
+            {
+                var category = await _categoryRepository.FindByIdAsync(id);
+                if (category is null)
+                {
+                    //404
+                    return new BaseResponse()
+                    {
+                        Success = false,
+                        Message = "Category Not Found",
+                    };
+                }
+                 
+                foreach (var translation in request.Translations)
+                    {
+                        var existing = category.Translations.FirstOrDefault(t=> t.Language== translation.Language);
+                        if(existing is not null)
+                        {
+                            if(existing.Name!= translation.Name)
+                            {
+                                existing.Name = translation.Name;
+                            }
+                        }
+                        else
+                        {
+                            //create new translation
+                            //category.Translations.Add(new CategoryTranslation()
+                            //{
+                            //    Name = translation.Name,
+                            //    Language = translation.Language,
+                            //});
+                            //or return error
+                            //400
+                            return new BaseResponse()
+                            {
+                                Success = false,
+                                Message = $"language :{translation.Language} not suported!",
+                            }; 
+                        }
+                    } 
+
+                await _categoryRepository.UpdateCategoryPatchAsync(category); 
+                //200
+                return new BaseResponse()
+                {
+                    Success = true,
+                    Message = "Category Updated Successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                //500
+                return new BaseResponse()
+                {
+                    Success = false,
+                    UnexpectedErrorFlag = true,
+                    Message = "Unexpected Error!",
+                    Errors = new List<string> { ex.Message }
+                };
+            }
+        }
+
         public async Task<BaseResponse> DeleteCategoryAsync(int id)
         {
             try
