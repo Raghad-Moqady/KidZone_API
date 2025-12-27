@@ -47,7 +47,7 @@ namespace RMSHOP.BLL.Service.Categories
                     };
                 }
                 category.Translations = request.Translations.Adapt<List<CategoryTranslation>>();
-                await _categoryRepository.UpdateCategoryPutAsync();
+                await _categoryRepository.UpdateCategoryPutAsync(category);
 
                 //200
                 return new BaseResponse()
