@@ -6,6 +6,7 @@ using RMSHOP.BLL.Service.Categories;
 using RMSHOP.DAL.DTO.Request;
 using RMSHOP.PL.Resources;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace RMSHOP.PL.Areas.Admin
 {
@@ -23,9 +24,9 @@ namespace RMSHOP.PL.Areas.Admin
         }
 
         [HttpPost("")]
-        public IActionResult Create(CategoryRequest request)
+        public async Task<IActionResult> Create(CategoryRequest request)
         {
-            var response = _categoryService.CreateCategory(request);
+            var response =await _categoryService.CreateCategoryAsync(request);
             return Ok(new { message = _localizer["Success"].Value, category = response });
         }
 

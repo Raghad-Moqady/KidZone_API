@@ -16,16 +16,16 @@ namespace RMSHOP.DAL.Repository.Categories
         public CategoryRepository(ApplicationDbContext context) {
             _context = context;
         }
-        public List<Category> GetAll()
+        public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            var categories = _context.Categories.Include(c => c.Translations).ToList();
+            var categories = await _context.Categories.Include(c => c.Translations).ToListAsync();
             return categories;
         }
 
-        public Category Create(Category category)
+        public async Task<Category> CreateCategoryAsync(Category category)
         {
-            _context.Add(category);
-            _context.SaveChanges();
+            await _context.AddAsync(category);
+            await _context.SaveChangesAsync();
             return category;
         }
 

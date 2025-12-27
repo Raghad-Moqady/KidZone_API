@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using RMSHOP.BLL.Service.Categories;
 using RMSHOP.PL.Resources;
+using System.Threading.Tasks;
 
 namespace RMSHOP.PL.Areas.User
 {
@@ -21,8 +22,8 @@ namespace RMSHOP.PL.Areas.User
         }
 
         [HttpGet("")]
-        public IActionResult Index() {
-            var response = _categoryService.GetAllCategories();
+        public async Task<IActionResult> Index() {
+            var response =await _categoryService.GetAllCategoriesAsync();
             return Ok(new { message = _localizer["Success"].Value,categories=response});
         }
     }

@@ -9,8 +9,8 @@ namespace RMSHOP.DAL.Repository.Categories
 {
     public interface ICategoryRepository
     {
-        List<Category> GetAll();
-        Category Create(Category category);
+        Task<List<Category>> GetAllCategoriesAsync();
+        Task<Category> CreateCategoryAsync(Category category);
         Task<Category?> FindByIdAsync(int id);
         Task DeleteCategoryAsync(Category category);
         Task UpdateCategoryPutAsync(Category category);

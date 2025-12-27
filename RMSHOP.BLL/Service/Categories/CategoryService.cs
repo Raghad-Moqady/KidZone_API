@@ -19,18 +19,17 @@ namespace RMSHOP.BLL.Service.Categories
             _categoryRepository = categoryRepository;
         }
 
-        public List<CategoryResponse> GetAllCategories()
+        public async Task<List<CategoryResponse>> GetAllCategoriesAsync()
         {
-            var categories = _categoryRepository.GetAll();
+            var categories =await _categoryRepository.GetAllCategoriesAsync();
             return categories.Adapt<List<CategoryResponse>>();
          }
-        public CategoryResponse CreateCategory(CategoryRequest request)
+        public async Task<CategoryResponse> CreateCategoryAsync(CategoryRequest request)
         {
             var category = request.Adapt<Category>();
-            var response = _categoryRepository.Create(category);
+            var response =await _categoryRepository.CreateCategoryAsync(category);
             return response.Adapt<CategoryResponse>();
          }
-
 
         public async Task<BaseResponse> UpdateCategoryPutAsync(int id, CategoryRequest request)
         {
