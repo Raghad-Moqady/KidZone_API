@@ -23,7 +23,7 @@ namespace RMSHOP.BLL.Service.Categories
         {
             var categories =await _categoryRepository.GetAllCategoriesAsync();
             return categories.Adapt<List<CategoryResponse>>();
-         }
+        }
         public async Task<CategoryResponse> CreateCategoryAsync(CategoryRequest request)
         {
             var category = request.Adapt<Category>();

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using RMSHOP.BLL.MapsterConfigurations;
 using RMSHOP.DAL.Data;
 using RMSHOP.DAL.Models;
 using RMSHOP.DAL.Utils;
@@ -106,7 +107,10 @@ namespace RMSHOP.PL
             builder.Services.AddSwaggerGen();
 
             //App Configurations (contain all Services)
-            AppConfiguration.Config(builder.Services); 
+            AppConfiguration.Config(builder.Services);
+
+            //Mapster Configurations
+            MapsterConfig.MapsterConfigRegister();
 
             var app = builder.Build();
 

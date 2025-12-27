@@ -18,7 +18,7 @@ namespace RMSHOP.DAL.Repository.Categories
         }
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            var categories = await _context.Categories.Include(c => c.Translations).ToListAsync();
+            var categories = await _context.Categories.Include(c => c.Translations).Include(c=>c.User).ToListAsync();
             return categories;
         }
 
