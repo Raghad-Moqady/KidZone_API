@@ -33,7 +33,7 @@ namespace RMSHOP.PL.Areas.Admin
 
 
         [HttpPost("")]
-        public async Task<IActionResult> Create(CategoryRequest request)
+        public async Task<IActionResult> Create([FromBody] CategoryRequest request)
         {
             var response =await _categoryService.CreateCategoryAsync(request);
             return Ok(new { message = _localizer["Success"].Value, category = response });

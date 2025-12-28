@@ -17,7 +17,7 @@ namespace RMSHOP.PL.Areas.Identity
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var response= await _authenticationService.LoginAsync(request);
             //500
@@ -37,7 +37,7 @@ namespace RMSHOP.PL.Areas.Identity
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterRequest request) {
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request) {
           var response=await _authenticationService.RegisterAsync(request);
             //500
             if (response.UnexpectedErrorFlag) {
@@ -52,13 +52,13 @@ namespace RMSHOP.PL.Areas.Identity
         }
 
         [HttpGet("ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail(string token, string userId) {
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string token,[FromQuery] string userId) {
             var response=await _authenticationService.ConfirmEmailAsync(token, userId);
             return Ok(new {message= response});
         }
 
         [HttpPost("SendCode")]
-        public async Task<IActionResult> SendCode(SendCodeRequest request)
+        public async Task<IActionResult> SendCode([FromBody] SendCodeRequest request)
         {
             var response = await _authenticationService.SendCodeAsync(request);
             if (!response.Success)
@@ -70,7 +70,7 @@ namespace RMSHOP.PL.Areas.Identity
         }
 
         [HttpPatch("ResetPassword")]
-        public async Task<IActionResult> ResetPassword(ResetPasswordRequest request)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
         {
             var response = await _authenticationService.ResetPasswordAsync(request);
             if (!response.Success)
