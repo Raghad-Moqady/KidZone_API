@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using RMSHOP.DAL.DTO.Response.Categories;
+using RMSHOP.DAL.DTO.Response.Products;
 using RMSHOP.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,10 @@ namespace RMSHOP.BLL.MapsterConfigurations
                 .Map(dest => dest.Name, source=> source.Translations
                 .Where(t => t.Language == MapContext.Current.Parameters["lang"].ToString())
                 .Select(t => t.Name).FirstOrDefault());
+
+            TypeAdapterConfig<Product, ProductResponse>.NewConfig()
+               .Map(dest => dest.CreatedBy, source => source.User.UserName)
+               .Map(dest=> dest.MainImage, source=> $"https://localhost:7281/images/{source.MainImage}");
         }
     }
 }

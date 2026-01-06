@@ -1,0 +1,27 @@
+﻿using Microsoft.EntityFrameworkCore;
+using RMSHOP.DAL.Data;
+using RMSHOP.DAL.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RMSHOP.DAL.Repository.Products
+{
+    public class ProductRepository : IProductRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public ProductRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        public async Task<Product> CreateProductAsync(Product product)
+        {
+             await _context.AddAsync(product);
+             await _context.SaveChangesAsync();
+             return _context.Products.Include(p => p.User).FirstOrDefault(p => p.Id == product.Id);
+        }
+    }
+}

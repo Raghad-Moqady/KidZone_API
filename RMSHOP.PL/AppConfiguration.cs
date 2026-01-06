@@ -1,9 +1,11 @@
-﻿using RMSHOP.BLL.Service;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using RMSHOP.BLL.Service;
 using RMSHOP.BLL.Service.Categories;
 using RMSHOP.BLL.Service.Identity;
+using RMSHOP.BLL.Service.Products;
 using RMSHOP.DAL.Repository.Categories;
+using RMSHOP.DAL.Repository.Products;
 using RMSHOP.DAL.Utils;
-using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace RMSHOP.PL
 {
@@ -22,6 +24,11 @@ namespace RMSHOP.PL
             Services.AddScoped<IAuthenticationService, AuthenticationService>();
             //To send emails
             Services.AddTransient<IEmailSender, EmailSender>();
+
+            Services.AddScoped<IProductService, ProductService>();
+            Services.AddScoped<IProductRepository, ProductRepository>();
+            Services.AddScoped<IFileService, FileService>();
+
         }
     }
 }
