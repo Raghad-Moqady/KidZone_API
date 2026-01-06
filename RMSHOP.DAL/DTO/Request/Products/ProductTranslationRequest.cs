@@ -10,6 +10,6 @@ namespace RMSHOP.DAL.DTO.Request.Products
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Language { get; set; } = "en";
+        public string Language { get; set; }
     }
 }
