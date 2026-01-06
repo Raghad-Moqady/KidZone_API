@@ -32,5 +32,11 @@ namespace RMSHOP.BLL.Service.Products
             var result= await _productRepository.CreateProductAsync(product);
             return result.Adapt<ProductResponse>();
         }
+
+        public async Task<List<ProductResponse>> GetAllAsync()
+        {
+             var response= await _productRepository.GetAllAsync();
+             return response.Adapt<List<ProductResponse>>();
+        }
     }
 }

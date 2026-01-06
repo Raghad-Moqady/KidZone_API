@@ -23,5 +23,10 @@ namespace RMSHOP.DAL.Repository.Products
              await _context.SaveChangesAsync();
              return _context.Products.Include(p => p.User).FirstOrDefault(p => p.Id == product.Id);
         }
+
+        public async Task<List<Product>> GetAllAsync()
+        {
+            return await _context.Products.Include(p=>p.User).Include(p=>p.Translations).ToListAsync();
+        }
     }
 }

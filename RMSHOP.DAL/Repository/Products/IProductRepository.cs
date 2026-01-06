@@ -10,5 +10,6 @@ namespace RMSHOP.DAL.Repository.Products
     public interface IProductRepository
     {
         Task<Product> CreateProductAsync(Product product);
+        Task<List<Product>> GetAllAsync();
     }
 }

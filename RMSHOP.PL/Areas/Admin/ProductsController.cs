@@ -21,6 +21,14 @@ namespace RMSHOP.PL.Areas.Admin
             _productService = productService;
             _localizer = localizer;
         }
+
+        [HttpGet("")]
+        public async Task<IActionResult> Index()
+        {
+            var response = await _productService.GetAllAsync();
+            return Ok(new { message = _localizer["Success"].Value, products =response });
+        }
+
         [HttpPost("")]
         public async Task<IActionResult> Create([FromForm] ProductRequest request)
         {

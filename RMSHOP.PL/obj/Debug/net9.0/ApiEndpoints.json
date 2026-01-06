@@ -101,6 +101,16 @@
   },
   {
     "ContainingType": "RMSHOP.PL.Areas.Admin.ProductsController",
+    "Method": "Index",
+    "RelativePath": "api/admin/Products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RMSHOP.PL.Areas.Admin.ProductsController",
     "Method": "Create",
     "RelativePath": "api/admin/Products",
     "HttpMethod": "POST",

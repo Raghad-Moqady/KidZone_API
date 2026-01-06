@@ -11,5 +11,6 @@ namespace RMSHOP.BLL.Service.Products
     public interface IProductService
     {
         Task<ProductResponse> CreateProductAsync(ProductRequest request);
+        Task<List<ProductResponse>> GetAllAsync();
     }
 }
