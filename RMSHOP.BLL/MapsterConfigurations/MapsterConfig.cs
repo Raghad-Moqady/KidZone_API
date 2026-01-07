@@ -42,6 +42,27 @@ namespace RMSHOP.BLL.MapsterConfigurations
                 
                 .Map(dest=> dest.MainImage, source=> $"https://localhost:7281/images/{source.MainImage}");
 
+            TypeAdapterConfig<Product, ProductDetailsForUserResponse>.NewConfig()
+                .Map(dest => dest.Name, source => source.Translations
+                .Where(t => t.Language == MapContext.Current.Parameters["lang"].ToString())
+                .Select(t =>t.Name).FirstOrDefault())
+                
+                .Map(dest=> dest.Description, source=> source.Translations
+                .Where(t=>t.Language== MapContext.Current.Parameters["lang"].ToString())
+                .Select(t=>t.Description).FirstOrDefault())
+
+                .Map(dest=>dest.CategoryName,source=>source.Category.Translations
+                .Where(t=>t.Language== MapContext.Current.Parameters["lang"].ToString())
+                .Select(t=>t.Name).FirstOrDefault())
+                
+                .Map(dest=>dest.MainImage, source=> $"https://localhost:7281/images/{source.MainImage}")
+                .Map(dest=> dest.SubImages, source => source.SubImages.Select(s=> $"https://localhost:7281/images/{s.ImageName}"))
+                
+                ;
+                
+                
+        
+        
         }
 
     }

@@ -17,11 +17,20 @@ namespace RMSHOP.DAL.Repository.Products
         {
             _context = context;
         }
-        public async Task<Product> CreateProductAsync(Product product)
+        public async Task<Product?> CreateProductAsync(Product product)
         {
              await _context.AddAsync(product);
              await _context.SaveChangesAsync();
-             return _context.Products.Include(p => p.User).FirstOrDefault(p => p.Id == product.Id);
+             return await _context.Products.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == product.Id);
+        }
+
+        public async Task<Product?> FindProductById(int id)
+        {
+            return await _context.Products
+                .Include(p => p.Translations)
+                .Include(p => p.Category.Translations)
+                .Include(p=>p.SubImages)
+                .FirstOrDefaultAsync(p=>p.Id==id);
         }
 
         public async Task<List<Product>> GetAllAsync()
