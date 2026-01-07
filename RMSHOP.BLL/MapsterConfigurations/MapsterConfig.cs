@@ -28,7 +28,8 @@ namespace RMSHOP.BLL.MapsterConfigurations
 
             TypeAdapterConfig<Product, ProductResponse>.NewConfig()
                .Map(dest => dest.CreatedBy, source => source.User.UserName)
-               .Map(dest=> dest.MainImage, source=> $"https://localhost:7281/images/{source.MainImage}");
+               .Map(dest => dest.MainImage, source => $"https://localhost:7281/images/{source.MainImage}")
+               .Map(dest=> dest.SubImages, source => source.SubImages.Select(s=> $"https://localhost:7281/images/{s.ImageName}").ToList());
         }
     }
 }

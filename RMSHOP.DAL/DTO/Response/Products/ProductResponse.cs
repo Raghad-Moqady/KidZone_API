@@ -16,9 +16,9 @@ namespace RMSHOP.DAL.DTO.Response.Products
         public Status Status { get; set; }
         public string CreatedBy { get; set; }
         public string MainImage { get; set; }
+        public List<string> SubImages { get; set; }
+        //public List<ProductSubImageResponse> SubImages { get; set; }
         public List<ProductTranslationResponse> Translations { get; set; }
-        public List<ProductSubImageResponse> SubImages { get; set; }
-        //or  public List<string> SubImages { get; set; }
-         
+
     }
 }

@@ -29,6 +29,19 @@ namespace RMSHOP.BLL.Service.Products
                 var fileName= await _fileService.UploadAsync(request.MainImage);
                 product.MainImage = fileName;
             }
+
+            if(request.SubImages != null)
+            {
+                product.SubImages = new List<ProductSubImage>();
+                foreach(var image in request.SubImages)
+                {
+                    var fileName = await _fileService.UploadAsync(image);
+                    product.SubImages.Add(new ProductSubImage
+                    {
+                        ImageName = fileName
+                    });
+                }
+            }
             var result= await _productRepository.CreateProductAsync(product);
             return result.Adapt<ProductResponse>();
         }

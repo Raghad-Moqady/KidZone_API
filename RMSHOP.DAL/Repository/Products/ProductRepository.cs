@@ -26,7 +26,7 @@ namespace RMSHOP.DAL.Repository.Products
 
         public async Task<List<Product>> GetAllAsync()
         {
-            return await _context.Products.Include(p=>p.User).Include(p=>p.Translations).ToListAsync();
+            return await _context.Products.Include(p=>p.User).Include(p=>p.Translations).Include(p=>p.SubImages).ToListAsync();
         }
     }
 }

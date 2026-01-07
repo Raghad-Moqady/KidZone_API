@@ -11,7 +11,6 @@ namespace RMSHOP.DAL.Models
     public class ProductSubImage
     {
         public string ImageName { get; set; }
-
         public int ProductId { get; set; }
         public Product Product { get; set; }
     }

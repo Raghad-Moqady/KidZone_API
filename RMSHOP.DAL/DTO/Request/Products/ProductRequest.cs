@@ -14,9 +14,9 @@ namespace RMSHOP.DAL.DTO.Request.Products
         public decimal Discount { get; set; }
         public int Quantity { get; set; }
         public IFormFile MainImage { get; set; }
+        public List<IFormFile> SubImages { get; set; }
+        //public List<ProductSubImageRequest> SubImages { get; set; }
         public int CategoryId { get; set; }
         public List<ProductTranslationRequest> Translations { get; set; }
-        public List<ProductSubImageRequest> SubImages { get; set; }
-        //or public List<IFormFile> SubImages { get; set; }
     }
 }
