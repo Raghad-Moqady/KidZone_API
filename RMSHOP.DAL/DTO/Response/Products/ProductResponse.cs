@@ -1,4 +1,5 @@
-﻿using RMSHOP.DAL.Models;
+﻿using RMSHOP.DAL.DTO.Request.Products;
+using RMSHOP.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,8 @@ namespace RMSHOP.DAL.DTO.Response.Products
         public string CreatedBy { get; set; }
         public string MainImage { get; set; }
         public List<ProductTranslationResponse> Translations { get; set; }
+        public List<ProductSubImageResponse> SubImages { get; set; }
+        //or  public List<string> SubImages { get; set; }
+         
     }
 }

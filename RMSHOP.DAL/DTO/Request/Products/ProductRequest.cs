@@ -16,5 +16,7 @@ namespace RMSHOP.DAL.DTO.Request.Products
         public IFormFile MainImage { get; set; }
         public int CategoryId { get; set; }
         public List<ProductTranslationRequest> Translations { get; set; }
+        public List<ProductSubImageRequest> SubImages { get; set; }
+        //or public List<IFormFile> SubImages { get; set; }
     }
 }
