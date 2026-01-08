@@ -2,7 +2,7 @@
 using RMSHOP.DAL.DTO.Request.Products;
 using RMSHOP.DAL.DTO.Response.Categories;
 using RMSHOP.DAL.DTO.Response.Products;
-using RMSHOP.DAL.Models;
+using RMSHOP.DAL.Models.product;
 using RMSHOP.DAL.Repository.Products;
 using System;
 using System.Collections.Generic;

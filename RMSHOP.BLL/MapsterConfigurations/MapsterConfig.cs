@@ -1,7 +1,8 @@
 ﻿using Mapster;
 using RMSHOP.DAL.DTO.Response.Categories;
 using RMSHOP.DAL.DTO.Response.Products;
-using RMSHOP.DAL.Models;
+using RMSHOP.DAL.Models.category;
+using RMSHOP.DAL.Models.product;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RMSHOP.BLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+528151bde0562f4c49df8245f1a5abf87e6ddd90")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4eaed2032f32af455b3e6ea9190268be83ddaa09")]
 [assembly: System.Reflection.AssemblyProductAttribute("RMSHOP.BLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RMSHOP.BLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

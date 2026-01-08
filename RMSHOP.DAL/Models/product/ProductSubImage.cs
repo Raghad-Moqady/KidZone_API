@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMSHOP.DAL.Models
+namespace RMSHOP.DAL.Models.product
 {
     [PrimaryKey(nameof(ImageName) ,nameof(ProductId))]
     public class ProductSubImage

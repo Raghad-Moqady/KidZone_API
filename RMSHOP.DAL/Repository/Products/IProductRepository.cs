@@ -1,4 +1,4 @@
-﻿using RMSHOP.DAL.Models;
+﻿using RMSHOP.DAL.Models.product;
 using System;
 using System.Collections.Generic;
 using System.Linq;

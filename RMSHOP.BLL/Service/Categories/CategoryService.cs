@@ -3,6 +3,7 @@ using RMSHOP.DAL.DTO.Request.categories;
 using RMSHOP.DAL.DTO.Response;
 using RMSHOP.DAL.DTO.Response.Categories;
 using RMSHOP.DAL.Models;
+using RMSHOP.DAL.Models.category;
 using RMSHOP.DAL.Repository.Categories;
 using System;
 using System.Collections.Generic;

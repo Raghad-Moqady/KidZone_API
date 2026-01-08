@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RMSHOP.DAL.Models;
+using RMSHOP.DAL.Models.category;
+using RMSHOP.DAL.Models.product;
 using System;
 using System.Collections.Generic;
 using System.Linq;

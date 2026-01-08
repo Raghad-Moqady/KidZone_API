@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMSHOP.DAL.Models
+namespace RMSHOP.DAL.Models.product
 {
-    public class CategoryTranslation
+    public class ProductTranslation
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public string Language { get; set; } = "en";
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
+
+
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
 
 
     }

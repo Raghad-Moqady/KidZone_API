@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RMSHOP.DAL.Data;
-using RMSHOP.DAL.Models;
+using RMSHOP.DAL.Models.category;
 using System;
 using System.Collections.Generic;
 using System.Linq;
