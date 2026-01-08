@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RMSHOP.DAL.Models;
+using RMSHOP.DAL.Models.cart;
 using RMSHOP.DAL.Models.category;
 using RMSHOP.DAL.Models.product;
 using System;
@@ -23,6 +24,7 @@ namespace RMSHOP.DAL.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductTranslation> ProductTranslations { get; set; }
         public DbSet<ProductSubImage> ProductSubImages { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,IHttpContextAccessor httpContextAccessor)
         :base(options)
@@ -40,14 +42,20 @@ namespace RMSHOP.DAL.Data
             builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
-            builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens"); 
+            builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
 
             //to solve multiple cascade path issue (in EF)
             builder.Entity<Category>()
-            .HasOne(c=> c.User)
+            .HasOne(c => c.User)
             .WithMany()
-            .HasForeignKey(c=>c.CreatedBy)
+            .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.NoAction);
+
+           builder.Entity <Cart>()
+          .HasOne(c => c.User)
+          .WithMany()
+          .HasForeignKey(c => c.UserId)
+          .OnDelete(DeleteBehavior.NoAction);
         }
 
         // audit
