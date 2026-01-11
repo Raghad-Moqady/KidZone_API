@@ -12,5 +12,7 @@ namespace RMSHOP.DAL.Repository.Carts
         Task<Cart?> GetCartItemAsync(string userId, int productId);
         Task UpdateCartItemCountAsync();
         Task AddToCartAsync(Cart cart);
+
+        Task<List<Cart>> GetCartItemsForUserAsync(string userId);
     }
 }

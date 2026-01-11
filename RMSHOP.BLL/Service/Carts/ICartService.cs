@@ -1,5 +1,6 @@
 ﻿using RMSHOP.DAL.DTO.Request.Cart;
 using RMSHOP.DAL.DTO.Response;
+using RMSHOP.DAL.DTO.Response.Cart;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace RMSHOP.BLL.Service.Carts
     public interface ICartService
     {
         Task<BaseResponse> AddToCartAsync(string userId, AddToCartRequest request);
+        Task<CartSummaryResponse> GetCartSummaryForUserAsync(string userId,string lang);
     }
 }

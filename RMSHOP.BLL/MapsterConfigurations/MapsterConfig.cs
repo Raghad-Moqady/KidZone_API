@@ -1,6 +1,8 @@
 ﻿using Mapster;
+using RMSHOP.DAL.DTO.Response.Cart;
 using RMSHOP.DAL.DTO.Response.Categories;
 using RMSHOP.DAL.DTO.Response.Products;
+using RMSHOP.DAL.Models.cart;
 using RMSHOP.DAL.Models.category;
 using RMSHOP.DAL.Models.product;
 using System;
@@ -58,12 +60,17 @@ namespace RMSHOP.BLL.MapsterConfigurations
                 
                 .Map(dest=>dest.MainImage, source=> $"https://localhost:7281/images/{source.MainImage}")
                 .Map(dest=> dest.SubImages, source => source.SubImages.Select(s=> $"https://localhost:7281/images/{s.ImageName}"))
-                
                 ;
-                
-                
-        
-        
+
+            TypeAdapterConfig<Cart, CartProductResponse>.NewConfig()
+                .Map(dest => dest.ProductName, source => source.Product.Translations
+                .FirstOrDefault(t=>t.Language== MapContext.Current.Parameters["lang"].ToString()).Name)
+                .Map(dest=>dest.Price, source=>source.Product.Price)
+                .Map(dest=>dest.MainImage, source=> $"https://localhost:7281/images/{source.Product.MainImage}")
+                .Map(dest=> dest.ProductCount, source=>source.Count)
+                .Map(dest=>dest.CategoryName, source=>source.Product.Category.Translations
+                .FirstOrDefault(t => t.Language == MapContext.Current.Parameters["lang"].ToString()).Name)
+                ;
         }
 
     }

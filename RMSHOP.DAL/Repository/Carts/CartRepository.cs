@@ -36,5 +36,14 @@ namespace RMSHOP.DAL.Repository.Carts
             await _context.AddAsync(cart);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Cart>> GetCartItemsForUserAsync(string userId)
+        {
+            return await _context.Carts
+                .Where(c=>c.UserId==userId)
+                .Include(c=>c.Product.Translations)
+                .Include (c=>c.Product.Category.Translations)
+                .ToListAsync();
+        }
     }
 }

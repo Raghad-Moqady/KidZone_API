@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using RMSHOP.DAL.DTO.Request.Cart;
 using RMSHOP.DAL.DTO.Response;
+using RMSHOP.DAL.DTO.Response.Cart;
 using RMSHOP.DAL.Models.cart;
 using RMSHOP.DAL.Repository.Carts;
 using RMSHOP.DAL.Repository.Products;
@@ -97,6 +98,18 @@ namespace RMSHOP.BLL.Service.Carts
                 };
             }
             
+        }
+
+        public async Task<CartSummaryResponse> GetCartSummaryForUserAsync(string userId ,string lang)
+        {
+            //1. from Cart : (filter by user Id)
+            var cartItems= await _cartRepository.GetCartItemsForUserAsync(userId);
+            var cartProducts = cartItems.BuildAdapter().AddParameters("lang",lang).AdaptToType<List<CartProductResponse>>();
+            var cartSummary = new CartSummaryResponse
+            {
+                 CartProducts = cartProducts,
+            };
+            return cartSummary;
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RMSHOP.BLL.Service.Carts;
 using RMSHOP.DAL.DTO.Request.Cart;
+using RMSHOP.DAL.Models.cart;
 using System.Security.Claims;
 
 namespace RMSHOP.PL.Areas.User
@@ -23,7 +24,6 @@ namespace RMSHOP.PL.Areas.User
         {
             var userId= User.FindFirstValue(ClaimTypes.NameIdentifier);
             var response = await _cartService.AddToCartAsync(userId,request);
-            // لازم نضيف حالات الايرور
             //500
             if (response.UnexpectedErrorFlag)
             {
@@ -45,5 +45,17 @@ namespace RMSHOP.PL.Areas.User
             //200
             return Ok(response);
          }
+        
+        
+        [HttpGet("")]
+        public async Task<IActionResult> GetCartSummaryForUser([FromQuery] string lang="en")
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response= await _cartService.GetCartSummaryForUserAsync(userId,lang);
+            return Ok(response);
+        }
+
+
+
     }
 }

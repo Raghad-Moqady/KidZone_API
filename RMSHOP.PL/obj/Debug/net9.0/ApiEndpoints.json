@@ -257,6 +257,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "RMSHOP.PL.Areas.User.CartsController",
+    "Method": "GetCartSummaryForUser",
+    "RelativePath": "api/Carts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "lang",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "RMSHOP.PL.Areas.User.CategoriesController",
     "Method": "Index",
     "RelativePath": "api/Categories",
