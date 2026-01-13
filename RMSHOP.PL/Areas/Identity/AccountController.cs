@@ -81,6 +81,18 @@ namespace RMSHOP.PL.Areas.Identity
 
         }
 
+        [HttpPatch("RefreshToken")]
+        public async Task<IActionResult> RefreshToken(TokenApiRequest request)
+        {
+            var response = await _authenticationService.RefreshTokenAsync(request);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }
+
+
 
     }
 }

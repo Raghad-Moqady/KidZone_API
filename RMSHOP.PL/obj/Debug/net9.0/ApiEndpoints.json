@@ -194,6 +194,22 @@
   },
   {
     "ContainingType": "RMSHOP.PL.Areas.Identity.AccountController",
+    "Method": "RefreshToken",
+    "RelativePath": "api/auth/Account/RefreshToken",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "RMSHOP.DAL.DTO.Request.Identity.TokenApiRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RMSHOP.PL.Areas.Identity.AccountController",
     "Method": "Register",
     "RelativePath": "api/auth/Account/Register",
     "HttpMethod": "POST",

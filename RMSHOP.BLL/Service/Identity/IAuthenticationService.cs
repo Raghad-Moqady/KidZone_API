@@ -24,5 +24,8 @@ namespace RMSHOP.BLL.Service.Identity
 
         //Reset Password
         Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request);
+
+        //Refresh token
+        Task<LoginResponse> RefreshTokenAsync(TokenApiRequest request);
     }
 }

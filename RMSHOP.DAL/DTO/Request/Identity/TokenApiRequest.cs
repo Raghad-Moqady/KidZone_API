@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RMSHOP.DAL.DTO.Response.Identity
+namespace RMSHOP.DAL.DTO.Request.Identity
 {
-    public class LoginResponse:BaseResponse
+    public class TokenApiRequest
     {
-        public string? AccessToken {  get; set; }
+        public string? AccessToken { get; set; }
         public string? RefreshToken { get; set; }
     }
 }

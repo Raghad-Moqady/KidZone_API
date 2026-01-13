@@ -88,12 +88,19 @@ namespace RMSHOP.BLL.Service.Identity
                         Message = "Invalid Password !",
                     };
                 }
+                var accessToken = await _tokenService.GenerateAccessToken(user);
+
+                var refreshToken =_tokenService.GenerateRefreshToken();
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                await _userManager.UpdateAsync(user);
                 //200
                 return new LoginResponse()
                 {
                     Success = true,
                     Message = "Login Successfully",
-                    AccessToken = await _tokenService.GenerateAccessToken(user),
+                    AccessToken = accessToken,
+                    RefreshToken = refreshToken
                 };
             }
             catch (Exception ex) {
@@ -301,5 +308,42 @@ namespace RMSHOP.BLL.Service.Identity
             };
 
         }
+    
+    
+        //Refresh token
+        public async Task<LoginResponse> RefreshTokenAsync(TokenApiRequest request)
+        {
+            string accessToken = request.AccessToken; //منتهي الصلاحية بدي اجدده
+            string refreshToken = request.RefreshToken;
+            var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
+            var userName = principal.Identity.Name;//Unique //this is mapped to the Name claim by default
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user is null|| refreshToken!= user.RefreshToken ||user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            {
+                //400
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Message = "Invalid Client Request !",
+                };
+            }
+
+            //create new token 
+            var newAccessToken = await _tokenService.GenerateAccessToken(user);
+
+            var newRefreshToken = _tokenService.GenerateRefreshToken();
+            user.RefreshToken = newRefreshToken;
+            await _userManager.UpdateAsync(user);
+            //200
+            return new LoginResponse()
+            {
+                Success = true,
+                Message = "Token Refreshed Successfully",
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken
+            };
+
+        }
+    
     }
 }
