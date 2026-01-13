@@ -16,5 +16,9 @@ namespace RMSHOP.DAL.Models
         public string? CodeResetPassword { get; set; }
         public DateTime? PasswordResetCodeExpiry { get; set; }
 
+        //Refresh Token 
+        public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
+
     }
 }
