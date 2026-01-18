@@ -1,5 +1,8 @@
-﻿using RMSHOP.DAL.DTO.Request.Checkout;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using RMSHOP.DAL.DTO.Request.Checkout;
 using RMSHOP.DAL.DTO.Response.Checkout;
+using RMSHOP.DAL.Models;
 using RMSHOP.DAL.Models.order;
 using RMSHOP.DAL.Repository.Carts;
 using RMSHOP.DAL.Repository.Orders;
@@ -16,11 +19,17 @@ namespace RMSHOP.BLL.Service.Checkout
     {
         private readonly ICartRepository _cartRepository;
         private readonly IOrderRepository _orderRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public CheckoutService(ICartRepository cartRepository, IOrderRepository orderRepository)
+        public CheckoutService(ICartRepository cartRepository, IOrderRepository orderRepository,
+            UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender)
         {
             _cartRepository = cartRepository;
             _orderRepository = orderRepository;
+            _userManager = userManager;
+            _emailSender = emailSender;
         }
         public async Task<CheckoutResponse> CheckoutAsync(string userId, CheckoutRequest request)
         {
@@ -130,6 +139,47 @@ namespace RMSHOP.BLL.Service.Checkout
                     Message = "Payment Method is Not Supported"
                 };
             }
+        }
+
+        public async Task<CheckoutResponse> HandleSuccessAsync(string session_id)
+        {
+            var service = new SessionService();
+            var session = service.Get(session_id);
+            var userId = session.Metadata["UserId"];
+
+            //update order تكملة
+            var order = await _orderRepository.GetOrderBySessionIdAsync(session_id);
+            order.PaymentId= session.PaymentIntentId;
+            order.OrderStatus = OrderStatusEnum.Approved;
+            await _orderRepository.UpdateAsync(order);
+
+            //send email to user 
+            var user = await _userManager.FindByIdAsync(userId);
+           
+            await _emailSender.SendEmailAsync(user.Email, "Payment Successfully",
+                $@"
+                     <div style='text-align:center; font-family: Arial, sans-serif;'>
+        <h1 style='color:orange;'>Payment Successful</h1>
+
+        <p>Hello {user.UserName},</p>
+
+        <p>
+            Your payment for <strong>KidZone Store</strong> has been completed successfully.
+            Thank you for your purchase!
+        </p>
+
+        <p style='font-size:14px; color:gray;'>
+            If you have any questions regarding your order, please contact our support team.
+        </p>
+    </div>
+                    ");
+
+
+            return new CheckoutResponse()
+            {
+                 Success= true,
+                 Message="Payment Completed Successfully!"
+            };
         }
     }
 }

@@ -11,5 +11,6 @@ namespace RMSHOP.BLL.Service.Checkout
     public interface ICheckoutService
     {
          Task<CheckoutResponse> CheckoutAsync(string userId, CheckoutRequest request);
+         Task<CheckoutResponse> HandleSuccessAsync(string session_id);
     }
 }

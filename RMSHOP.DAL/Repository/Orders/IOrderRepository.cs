@@ -10,5 +10,7 @@ namespace RMSHOP.DAL.Repository.Orders
     public interface IOrderRepository
     {
         Task CreateOrderAsync(Order order);
+        Task<Order?> GetOrderBySessionIdAsync(string session_id);
+        Task UpdateAsync(Order order);
     }
 }
