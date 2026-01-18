@@ -1,6 +1,8 @@
 ﻿using RMSHOP.DAL.DTO.Request.Checkout;
 using RMSHOP.DAL.DTO.Response.Checkout;
+using RMSHOP.DAL.Models.order;
 using RMSHOP.DAL.Repository.Carts;
+using RMSHOP.DAL.Repository.Orders;
 using Stripe.Checkout;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,12 @@ namespace RMSHOP.BLL.Service.Checkout
     public class CheckoutService : ICheckoutService
     {
         private readonly ICartRepository _cartRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public CheckoutService(ICartRepository cartRepository)
+        public CheckoutService(ICartRepository cartRepository, IOrderRepository orderRepository)
         {
             _cartRepository = cartRepository;
+            _orderRepository = orderRepository;
         }
         public async Task<CheckoutResponse> CheckoutAsync(string userId, CheckoutRequest request)
         {
@@ -57,9 +61,15 @@ namespace RMSHOP.BLL.Service.Checkout
             }
             
             //4. Create order 
+            Order order= new Order()
+            {
+                  PaymentMethod= request.PaymentMethod,  
+                  AmountPaid = cartTotal,
+                  UserId=userId,
+            };
             
             //5:
-            if (request.PaymentMethod == "cash")
+            if (request.PaymentMethod == PaymentMethodEnum.Cash)
             {
                 return new CheckoutResponse
                 {
@@ -67,7 +77,7 @@ namespace RMSHOP.BLL.Service.Checkout
                     Message = "cash"
                 };
             }
-            else if(request.PaymentMethod == "visa")
+            else if(request.PaymentMethod == PaymentMethodEnum.Visa)
             {
                 var options = new SessionCreateOptions
                 {
@@ -100,6 +110,9 @@ namespace RMSHOP.BLL.Service.Checkout
                 }
                 var service = new SessionService();
                 var session = service.Create(options);
+
+                order.SessionId= session.Id;
+                await _orderRepository.CreateOrderAsync(order); 
 
                 return new CheckoutResponse
                 {

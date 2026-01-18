@@ -1,7 +1,9 @@
-﻿using System;
+﻿using RMSHOP.DAL.Models.order;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace RMSHOP.DAL.DTO.Request.Checkout
@@ -10,6 +12,7 @@ namespace RMSHOP.DAL.DTO.Request.Checkout
     {
         //لان وصلنا لهذا الزر من صفحة السلة ، اذاً انا متأكدة مية بالمية انه اليوزر مسجل دخوله وبقدر اوصل لمعلوماته من التوكن
         //لذلك ما بطلب منه اي معلومات خاصة باليوزر
-        public string PaymentMethod { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public PaymentMethodEnum PaymentMethod { get; set; }
     }
 }

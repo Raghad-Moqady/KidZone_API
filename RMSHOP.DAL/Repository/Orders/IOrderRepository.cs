@@ -1,0 +1,14 @@
+﻿using RMSHOP.DAL.Models.order;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RMSHOP.DAL.Repository.Orders
+{
+    public interface IOrderRepository
+    {
+        Task CreateOrderAsync(Order order);
+    }
+}
