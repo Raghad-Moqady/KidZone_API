@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RMSHOP.DAL.Data;
+using RMSHOP.DAL.DTO.Response;
 using RMSHOP.DAL.Models.product;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,34 @@ namespace RMSHOP.DAL.Repository.Products
                 .Include(p => p.Translations)
                 .Include(p => p.Category.Translations).ToListAsync();
         }
-        
+
+        public async Task<bool> DecreaseProductQuantityAsync(int productId, int quantity)
+        {
+            var product= await _context.Products.FindAsync(productId);
+            
+            product.Quantity-=quantity;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DecreaseProductsQuantityAsync(List<(int productId, int quantity)> productsToDecreaseQuantity)
+        {
+            var productIds= productsToDecreaseQuantity.Select(p=>p.productId).ToList();
+            var products = await _context.Products.Where(p => productIds.Contains(p.Id)).ToListAsync();
+
+            foreach (var product in products)
+            {
+                var productToDecreaseQuantity = productsToDecreaseQuantity.FirstOrDefault(p=>p.productId==product.Id);
+                if (product.Quantity < productToDecreaseQuantity.quantity)
+                {
+                    return false;
+                }
+                product.Quantity -= productToDecreaseQuantity.quantity;
+               
+            }
+            await _context.SaveChangesAsync();
+            return true;
+
+        }
     }
 }

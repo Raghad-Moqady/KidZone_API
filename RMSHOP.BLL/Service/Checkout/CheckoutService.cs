@@ -9,6 +9,7 @@ using RMSHOP.DAL.Models.order;
 using RMSHOP.DAL.Repository.Carts;
 using RMSHOP.DAL.Repository.OrderItems;
 using RMSHOP.DAL.Repository.Orders;
+using RMSHOP.DAL.Repository.Products;
 using Stripe.Checkout;
 using System;
 using System.Collections.Generic;
@@ -25,17 +26,20 @@ namespace RMSHOP.BLL.Service.Checkout
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly IOrderItemRepository _orderItemRepository;
+        private readonly IProductRepository _productRepository;
 
         public CheckoutService(ICartRepository cartRepository, IOrderRepository orderRepository,
             UserManager<ApplicationUser> userManager,
             IEmailSender emailSender,
-            IOrderItemRepository orderItemRepository)
+            IOrderItemRepository orderItemRepository,
+            IProductRepository productRepository)
         {
             _cartRepository = cartRepository;
             _orderRepository = orderRepository;
             _userManager = userManager;
             _emailSender = emailSender;
             _orderItemRepository = orderItemRepository;
+            _productRepository = productRepository;
         }
         public async Task<CheckoutResponse> CheckoutAsync(string userId, CheckoutRequest request)
         {
@@ -172,6 +176,7 @@ namespace RMSHOP.BLL.Service.Checkout
 
             var cartItems = await _cartRepository.GetCartItemsForUserAsync(userId);
             var orderItems =new List<OrderItem>();
+            var productsToDecreaseQuantity = new List<(int productId,int quantity)>();
             foreach(var cartItem in cartItems)
             {
                 var orderItem = new OrderItem()
@@ -183,10 +188,12 @@ namespace RMSHOP.BLL.Service.Checkout
                      TotalPrice=cartItem.Product.Price * cartItem.Count,
                 };
                 orderItems.Add(orderItem);
+                productsToDecreaseQuantity.Add((cartItem.ProductId, cartItem.Count));
             }
             //Solve N+1 problem by :
             await _orderItemRepository.CreateRangeAsync(orderItems);
-
+            await _productRepository.DecreaseProductsQuantityAsync(productsToDecreaseQuantity);
+             
             ////2.Clear Cart
             await _cartRepository.ClearCartAsync(userId);
             //3.Send email to user 
