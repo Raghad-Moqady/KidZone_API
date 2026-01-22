@@ -18,10 +18,12 @@ namespace RMSHOP.BLL.Service.Products
         Task<List<ProductUserResponse>> GetAllProductsByCategoryForUserAsync(int categoryId, string lang);
         Task<PaginatedResponse<ProductUserResponse>> GetAllForUserAsync(
             string lang,
-            string search,
+            string? search,
             int page,
             int limit,
-            int? categoryId);
+            int? categoryId,
+            decimal? minPrice,
+            decimal? maxPrice);
         
             Task<ProductDetailsForUserResponse> GetProductDetailsForUserAsync(int id, string lang);
 

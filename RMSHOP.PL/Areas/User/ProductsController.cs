@@ -34,9 +34,11 @@ namespace RMSHOP.PL.Areas.User
             [FromQuery] string lang = "en",
             [FromQuery] string? search=null,
             [FromQuery] int? categoryId=null,
+            [FromQuery] decimal? minPrice= null,
+            [FromQuery] decimal? maxPrice=null,
             [FromQuery] int page=1, [FromQuery] int limit=3)
         {
-            var response= await _productService.GetAllForUserAsync(lang, search ,page,limit, categoryId);
+            var response= await _productService.GetAllForUserAsync(lang, search ,page,limit, categoryId,minPrice,maxPrice);
             return Ok(new {message= _localizer["Success"].Value ,response });
         }
 

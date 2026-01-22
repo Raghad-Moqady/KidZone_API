@@ -63,10 +63,12 @@ namespace RMSHOP.BLL.Service.Products
         }
         public async Task<PaginatedResponse<ProductUserResponse>> GetAllForUserAsync(
             string lang,
-            string search,
+            string? search,
             int page,
             int limit,
-            int? categoryId)
+            int? categoryId,
+            decimal? minPrice,
+            decimal? maxPrice)
         {
             //old code without pagination & sort &... so on :
             //var products = await _productRepository.GetAllForUserAsync();
@@ -83,7 +85,17 @@ namespace RMSHOP.BLL.Service.Products
             {
                 query= query.Where(p=>p.CategoryId== categoryId);
             }
-             
+
+            //Price range filtering (minPrice / maxPrice)
+            if (minPrice is not null)
+            {
+                query=query.Where(p=>p.Price>= minPrice);
+            }
+            if (maxPrice is not null)
+            {
+                query=query.Where(p=>p.Price<= maxPrice);
+            }
+
 
             //1*.total Count
             var totalCount =await query.CountAsync();
