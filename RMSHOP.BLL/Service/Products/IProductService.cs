@@ -23,7 +23,9 @@ namespace RMSHOP.BLL.Service.Products
             int limit,
             int? categoryId,
             decimal? minPrice,
-            decimal? maxPrice);
+            decimal? maxPrice,
+            string? sortBy,
+            bool asc);
         
             Task<ProductDetailsForUserResponse> GetProductDetailsForUserAsync(int id, string lang);
 

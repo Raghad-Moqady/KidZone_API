@@ -68,7 +68,9 @@ namespace RMSHOP.BLL.Service.Products
             int limit,
             int? categoryId,
             decimal? minPrice,
-            decimal? maxPrice)
+            decimal? maxPrice,
+            string? sortBy,
+            bool asc)
         {
             //old code without pagination & sort &... so on :
             //var products = await _productRepository.GetAllForUserAsync();
@@ -94,6 +96,24 @@ namespace RMSHOP.BLL.Service.Products
             if (maxPrice is not null)
             {
                 query=query.Where(p=>p.Price<= maxPrice);
+            }
+
+            //Sorting with asc/desc by price, name, and rate
+            if (sortBy is not null)
+            {
+                sortBy = sortBy.ToLower();
+                if (sortBy == "price")
+                {
+                    query = asc ?query.OrderBy(p=>p.Price):query.OrderByDescending(p=>p.Price);
+
+                }else if (sortBy == "name")
+                {
+                    query = asc ? query.OrderBy(p => p.Translations.FirstOrDefault(t=>t.Language==lang).Name)
+                        :query.OrderByDescending(p=>p.Translations.FirstOrDefault(t=>t.Language==lang).Name);
+                }else if(sortBy== "rate")
+                {
+                    query = asc ? query.OrderBy(p => p.Rate) : query.OrderByDescending(p => p.Rate);
+                }
             }
 
 
