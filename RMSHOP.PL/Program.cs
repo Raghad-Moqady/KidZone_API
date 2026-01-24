@@ -10,6 +10,7 @@ using RMSHOP.BLL.MapsterConfigurations;
 using RMSHOP.DAL.Data;
 using RMSHOP.DAL.Models;
 using RMSHOP.DAL.Utils;
+using RMSHOP.PL.Middleware;
 using Stripe;
 using System.Globalization;
 using System.Text;
@@ -157,6 +158,19 @@ namespace RMSHOP.PL
 
             app.MapControllers();
 
+            //test custom middleware
+            //app.Use(async(context, next) =>
+            //{
+            //    Console.WriteLine("Request");
+            //    await next();
+            //    Console.WriteLine("Response");
+            //});
+
+            //app.Run(async (context) =>
+            //{
+            //    Console.WriteLine("Run");
+            //});
+            app.UseMiddleware<CustomMiddleware>();
             app.Run();
         }
     }
