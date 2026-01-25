@@ -84,6 +84,27 @@ namespace RMSHOP.PL.Areas.User
             //200
             return Ok(response);
         }
-         
+
+        [HttpPatch("{productId}")]
+        public async Task<IActionResult> UpdateCartItemQuantity([FromRoute] int productId,[FromBody] UpdateCartItemQuantityRequest request)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response = await _cartService.UpdateCartItemQuantityAsync(userId,productId,request.NewCount);
+            if (!response.Success)
+            {
+                if (response.Message.Contains("Not Found"))
+                {
+                    //404
+                    return NotFound(response);
+                }
+                else
+                {
+                    //400
+                    return BadRequest(response);
+                }
+            }
+            //200
+            return Ok(response);
+        }
     }
 }

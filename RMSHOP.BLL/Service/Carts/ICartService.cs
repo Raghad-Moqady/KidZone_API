@@ -15,5 +15,6 @@ namespace RMSHOP.BLL.Service.Carts
         Task<CartSummaryResponse> GetCartSummaryForUserAsync(string userId,string lang);
         Task<BaseResponse> ClearCartAsync(string userId);
         Task<BaseResponse> RemoveItemFromUserCartAsync(int productId, string userId);
+        Task<BaseResponse> UpdateCartItemQuantityAsync(string userId, int productId, int NewCount);
     }
 }

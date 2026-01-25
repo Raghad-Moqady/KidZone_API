@@ -172,5 +172,75 @@ namespace RMSHOP.BLL.Service.Carts
             };
   
         }
+
+        public async Task<BaseResponse> UpdateCartItemQuantityAsync(string userId, int productId, int NewCount)
+        {
+            var product = await _productRepository.FindProductById(productId);
+            if (product is null)
+            {
+                //404
+                return new BaseResponse()
+                {
+                    Success = false,
+                    Message = "This product was Not Found in the database"
+                };
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+            {
+                //404
+                //هاي الحالة ممكن ما تصير لان منعت الcascade
+                //يعني ما دام اليوزر وصل لهاي المرحلة وكان عنده سلة ... الادمن ما بقدر يحذفه 
+                //للاحتياط
+                return new BaseResponse()
+                {
+                    Success = false,
+                    Message = "User Not Found"
+                };
+            }
+            var cartItem = await _cartRepository.GetCartItemAsync(userId, productId);
+            if (cartItem is null)
+            {
+                //400
+                return new BaseResponse()
+                {
+                    Success = false,
+                    Message = "This product is not found in the user's cart"
+                };
+            }
+
+            if (NewCount <= 0)
+            {
+                //400
+                return new BaseResponse()
+                {
+                    Success = false,
+                    Message = "Invalid Count"
+                };
+            }
+            //if (NewCount == 0)
+            //{
+            //    await _cartRepository.RemoveCartItemAsync(cartItem);
+            //}
+
+            if (NewCount > product.Quantity)
+            {
+                //400
+                return new BaseResponse()
+                {
+                    Success = false,
+                    Message = $"Only {product.Quantity} items are currently available in stock"
+                };
+            }
+            cartItem.Count = NewCount;
+            // context.SavechangesAsync();
+            await _cartRepository.UpdateCartItemCountAsync();
+            //200
+            return new BaseResponse()
+            {
+                Success=true,
+                Message = "Cart_Item Quantity Updated Successfully"
+            };
+        }
     }
 }

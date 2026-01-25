@@ -306,6 +306,27 @@
   },
   {
     "ContainingType": "RMSHOP.PL.Areas.User.CartsController",
+    "Method": "UpdateCartItemQuantity",
+    "RelativePath": "api/Carts/{productId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "RMSHOP.DAL.DTO.Request.Cart.UpdateCartItemQuantityRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RMSHOP.PL.Areas.User.CartsController",
     "Method": "ClearCart",
     "RelativePath": "api/Carts/clear",
     "HttpMethod": "DELETE",
