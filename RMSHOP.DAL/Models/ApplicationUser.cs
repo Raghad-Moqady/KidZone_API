@@ -21,6 +21,8 @@ namespace RMSHOP.DAL.Models
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
 
-        public List<Order> Orders { get; set; } 
+        public List<Order> Orders { get; set; }
+
+        public bool IsBlocked { get; set; }
     }
 }

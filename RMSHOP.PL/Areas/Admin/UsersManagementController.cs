@@ -24,7 +24,16 @@ namespace RMSHOP.PL.Areas.Admin
         [HttpGet("user/{userId}/details")]
         public async Task<IActionResult> GetUserDetails([FromRoute] string userId)=>
             Ok(await _usersManagementService.GetUserDetailsAsync(userId));
-        
+
+        [HttpPatch("block_user/{userId}")]
+        public async Task<IActionResult> BlockUser([FromRoute] string userId) =>
+            Ok(await _usersManagementService.BlockUserAsync(userId));
+
+        [HttpPatch("unblock_user/{userId}")]
+        public async Task<IActionResult> UnBlockUser([FromRoute] string userId) =>
+         Ok(await _usersManagementService.UnBlockUserAsync(userId));
+
+
 
 
     }

@@ -1,4 +1,5 @@
 ﻿
+using RMSHOP.DAL.DTO.Response;
 using RMSHOP.DAL.DTO.Response.UsersManagement;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,7 @@ namespace RMSHOP.BLL.Service.UsersManagement
     {
         Task<List<UserResponse>> GetAllUsersAsync();
         Task<UserDetailsResponse> GetUserDetailsAsync(string userId);
+        Task<BaseResponse> BlockUserAsync(string userId);
+        Task<BaseResponse> UnBlockUserAsync(string userId);
     }
 }

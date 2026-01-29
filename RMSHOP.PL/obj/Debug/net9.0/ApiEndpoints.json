@@ -210,6 +210,38 @@
   },
   {
     "ContainingType": "RMSHOP.PL.Areas.Admin.UsersManagementController",
+    "Method": "BlockUser",
+    "RelativePath": "api/admin/UsersManagement/block_user/{userId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RMSHOP.PL.Areas.Admin.UsersManagementController",
+    "Method": "UnBlockUser",
+    "RelativePath": "api/admin/UsersManagement/unblock_user/{userId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RMSHOP.PL.Areas.Admin.UsersManagementController",
     "Method": "GetUserDetails",
     "RelativePath": "api/admin/UsersManagement/user/{userId}/details",
     "HttpMethod": "GET",
