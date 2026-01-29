@@ -20,8 +20,11 @@ namespace RMSHOP.PL.Areas.Admin
         [HttpGet("users")]
         public async Task<IActionResult> GetAllUsers()=>
             Ok(await _usersManagementService.GetAllUsersAsync());
-       
 
+        [HttpGet("user/{userId}/details")]
+        public async Task<IActionResult> GetUserDetails([FromRoute] string userId)=>
+            Ok(await _usersManagementService.GetUserDetailsAsync(userId));
+        
 
 
     }

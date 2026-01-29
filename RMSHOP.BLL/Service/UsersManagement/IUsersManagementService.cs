@@ -11,5 +11,6 @@ namespace RMSHOP.BLL.Service.UsersManagement
     public interface IUsersManagementService
     {
         Task<List<UserResponse>> GetAllUsersAsync();
+        Task<UserDetailsResponse> GetUserDetailsAsync(string userId);
     }
 }

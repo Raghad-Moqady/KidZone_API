@@ -210,6 +210,22 @@
   },
   {
     "ContainingType": "RMSHOP.PL.Areas.Admin.UsersManagementController",
+    "Method": "GetUserDetails",
+    "RelativePath": "api/admin/UsersManagement/user/{userId}/details",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RMSHOP.PL.Areas.Admin.UsersManagementController",
     "Method": "GetAllUsers",
     "RelativePath": "api/admin/UsersManagement/users",
     "HttpMethod": "GET",

@@ -30,5 +30,14 @@ namespace RMSHOP.BLL.Service.UsersManagement
             };
             return usersResponse;
         }
+
+        public async Task<UserDetailsResponse> GetUserDetailsAsync(string userId)
+        {
+           var user = await _userManager.FindByIdAsync(userId);
+           var userResponse = user.Adapt<UserDetailsResponse>();
+           var roles= await _userManager.GetRolesAsync(user);
+           userResponse.Roles = roles.ToList();
+           return userResponse;
+        }
     }
 }
