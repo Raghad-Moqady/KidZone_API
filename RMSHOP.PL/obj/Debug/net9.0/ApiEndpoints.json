@@ -209,6 +209,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "RMSHOP.PL.Areas.Admin.UsersManagementController",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/admin/UsersManagement/users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "RMSHOP.PL.Areas.Identity.AccountController",
     "Method": "ConfirmEmail",
     "RelativePath": "api/auth/Account/ConfirmEmail",

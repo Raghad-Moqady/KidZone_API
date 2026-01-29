@@ -7,6 +7,7 @@ using RMSHOP.BLL.Service.Identity;
 using RMSHOP.BLL.Service.Orders;
 using RMSHOP.BLL.Service.Products;
 using RMSHOP.BLL.Service.Token;
+using RMSHOP.BLL.Service.UsersManagement;
 using RMSHOP.DAL.Repository.Carts;
 using RMSHOP.DAL.Repository.Categories;
 using RMSHOP.DAL.Repository.OrderItems;
@@ -54,6 +55,9 @@ namespace RMSHOP.PL
             //for global exception handler(way 2:new)
             Services.AddExceptionHandler<GlobalExceptionHandler>();
             Services.AddProblemDetails();
+
+            //Users Management 
+            Services.AddScoped<IUsersManagementService, UsersManagementService>();
         }
     }
 }
