@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RMSHOP.BLL.Service.UsersManagement;
+using RMSHOP.DAL.DTO.Request.UserManagement;
 
 namespace RMSHOP.PL.Areas.Admin
 {
@@ -33,8 +34,28 @@ namespace RMSHOP.PL.Areas.Admin
         public async Task<IActionResult> UnBlockUser([FromRoute] string userId) =>
          Ok(await _usersManagementService.UnBlockUserAsync(userId));
 
-
-
+        [Authorize(Roles = "SuperAdmin")]
+        [HttpPatch("changeRole")]
+        public async Task<IActionResult> ChangeUserRole([FromBody] ChangeUserRoleRequest request)
+        {
+            var response = await _usersManagementService.ChangeUserRoleAsync(request);
+            if (!response.Success)
+            {
+                if (response.Message.Contains("Not Found"))
+                {
+                    //404
+                    return NotFound(response);
+                }
+                else
+                {
+                    //400
+                    return BadRequest(response);
+                }
+            }
+            //200
+            return Ok(response);
+        }
+  
 
     }
 }

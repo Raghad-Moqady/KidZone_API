@@ -226,6 +226,22 @@
   },
   {
     "ContainingType": "RMSHOP.PL.Areas.Admin.UsersManagementController",
+    "Method": "ChangeUserRole",
+    "RelativePath": "api/admin/UsersManagement/changeRole",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "RMSHOP.DAL.DTO.Request.UserManagement.ChangeUserRoleRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RMSHOP.PL.Areas.Admin.UsersManagementController",
     "Method": "UnBlockUser",
     "RelativePath": "api/admin/UsersManagement/unblock_user/{userId}",
     "HttpMethod": "PATCH",

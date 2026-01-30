@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RMSHOP.DAL.DTO.Request.UserManagement;
 using RMSHOP.DAL.DTO.Response;
 using RMSHOP.DAL.DTO.Response.UsersManagement;
 using RMSHOP.DAL.Models;
@@ -68,6 +69,32 @@ namespace RMSHOP.BLL.Service.UsersManagement
                 Success = true,
                 Message = "User UnBlocked Successfully"
             };
+        }
+
+        public async Task<BaseResponse> ChangeUserRoleAsync(ChangeUserRoleRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(request.Id);
+            if (user is null)
+            {
+                //404
+                return new BaseResponse() { Success = false, Message = "User Not Found" };
+            };
+            string[] allowedRoles = ["SuperAdmin", "Admin", "User"];
+            foreach (string newRole in request.NewRoles)
+            {
+                if (!allowedRoles.Contains(newRole)) 
+                {
+                    //400
+                    return new BaseResponse() { Success = false, Message = $"Role '{newRole}' not valid!" };
+
+                }
+            }
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            await _userManager.AddToRolesAsync(user,request.NewRoles);
+            //200
+            return new BaseResponse() { Success = true, Message = "Roles Updated Successfully" };
+
         }
     }
 }

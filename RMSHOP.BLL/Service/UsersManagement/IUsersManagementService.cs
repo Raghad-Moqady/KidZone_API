@@ -1,4 +1,5 @@
 ﻿
+using RMSHOP.DAL.DTO.Request.UserManagement;
 using RMSHOP.DAL.DTO.Response;
 using RMSHOP.DAL.DTO.Response.UsersManagement;
 using System;
@@ -15,5 +16,6 @@ namespace RMSHOP.BLL.Service.UsersManagement
         Task<UserDetailsResponse> GetUserDetailsAsync(string userId);
         Task<BaseResponse> BlockUserAsync(string userId);
         Task<BaseResponse> UnBlockUserAsync(string userId);
+        Task<BaseResponse> ChangeUserRoleAsync(ChangeUserRoleRequest request);
     }
 }
