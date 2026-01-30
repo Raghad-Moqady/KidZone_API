@@ -48,5 +48,13 @@ namespace RMSHOP.DAL.Repository.Orders
                 .ThenInclude(oi=>oi.Product.Translations)
                 .FirstOrDefaultAsync(o=>o.Id==orderId);
         }
+
+        public async Task<bool> HasDeleveredOrderForThisUserForThisProduct(string userId, int productId)
+        {
+            return await _context.Orders
+                .Where(o => o.UserId == userId && o.OrderStatus == OrderStatusEnum.Delivered)
+                .SelectMany(o=>o.OrderItems)
+                .AnyAsync(oi=>oi.ProductId==productId);
+        }
     }
 }

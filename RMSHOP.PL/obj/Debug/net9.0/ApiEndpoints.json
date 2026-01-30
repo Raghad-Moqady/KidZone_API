@@ -589,6 +589,27 @@
   },
   {
     "ContainingType": "RMSHOP.PL.Areas.User.ProductsController",
+    "Method": "AddReview",
+    "RelativePath": "api/Products/addReview/product/{productId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "productId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "RMSHOP.DAL.DTO.Request.Review.ReviewRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RMSHOP.PL.Areas.User.ProductsController",
     "Method": "GetAllProductsByCategoryForUser",
     "RelativePath": "api/Products/category/{id}",
     "HttpMethod": "GET",

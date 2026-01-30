@@ -14,8 +14,8 @@ namespace RMSHOP.DAL.Repository.Orders
         Task UpdateAsync(Order order);
 
         Task<List<Order>> GetOrdersByStatusAsync(OrderStatusEnum orderStatus);
-        Task<Order?> GetOrderByIdAsync(int orderId);
-
+        Task<Order?> GetOrderByIdAsync(int orderId); 
+        Task<bool> HasDeleveredOrderForThisUserForThisProduct(string userId, int productId ); 
 
     }
 }

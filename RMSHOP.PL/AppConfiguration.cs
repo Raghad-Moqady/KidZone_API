@@ -6,6 +6,7 @@ using RMSHOP.BLL.Service.Checkout;
 using RMSHOP.BLL.Service.Identity;
 using RMSHOP.BLL.Service.Orders;
 using RMSHOP.BLL.Service.Products;
+using RMSHOP.BLL.Service.Reviews;
 using RMSHOP.BLL.Service.Token;
 using RMSHOP.BLL.Service.UsersManagement;
 using RMSHOP.DAL.Repository.Carts;
@@ -13,6 +14,7 @@ using RMSHOP.DAL.Repository.Categories;
 using RMSHOP.DAL.Repository.OrderItems;
 using RMSHOP.DAL.Repository.Orders;
 using RMSHOP.DAL.Repository.Products;
+using RMSHOP.DAL.Repository.Reviews;
 using RMSHOP.DAL.Utils;
 
 namespace RMSHOP.PL
@@ -58,6 +60,12 @@ namespace RMSHOP.PL
 
             //Users Management 
             Services.AddScoped<IUsersManagementService, UsersManagementService>();
+
+            //Reviews
+            Services.AddScoped<IReviewService, ReviewService>();
+            Services.AddScoped<IReviewRepository, ReviewRepository>();
+
+
         }
     }
 }

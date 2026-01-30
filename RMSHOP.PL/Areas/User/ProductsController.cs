@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using RMSHOP.BLL.Service.Products;
+using RMSHOP.BLL.Service.Reviews;
+using RMSHOP.DAL.DTO.Request.Review;
 using RMSHOP.DAL.DTO.Response;
 using RMSHOP.DAL.DTO.Response.Products;
 using RMSHOP.PL.Resources;
+using System.Security.Claims;
 
 namespace RMSHOP.PL.Areas.User
 {
@@ -14,11 +18,14 @@ namespace RMSHOP.PL.Areas.User
     {
         private readonly IProductService _productService;
         private readonly IStringLocalizer<SharedResource> _localizer;
+        private readonly IReviewService _reviewService;
 
-        public ProductsController(IProductService productService ,IStringLocalizer<SharedResource> localizer)
+        public ProductsController(IProductService productService ,IStringLocalizer<SharedResource> localizer
+            ,IReviewService reviewService)
         {
             _productService = productService;
             _localizer = localizer;
+            _reviewService = reviewService;
         }
 
         [HttpGet("category/{id}")]
@@ -51,7 +58,28 @@ namespace RMSHOP.PL.Areas.User
             return Ok(new {message = _localizer["Success"].Value, product = response});
         }
 
-       
-        
+
+        [HttpPost("addReview/product/{productId}")]
+        [Authorize]
+        public async Task<IActionResult> AddReview([FromRoute] int productId,[FromBody] ReviewRequest request)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response = await _reviewService.AddReviewAsync(userId,productId,request);
+            if (!response.Success)
+            {
+                if (response.Message.Contains("Not Found"))
+                {
+                    //404
+                    return NotFound(response);
+                }
+                else
+                {
+                    //400
+                    return BadRequest(response);
+                }
+            }
+            //200
+            return Ok(response);
         }
+    }
 }

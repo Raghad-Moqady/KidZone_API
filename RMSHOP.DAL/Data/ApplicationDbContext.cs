@@ -7,6 +7,7 @@ using RMSHOP.DAL.Models.cart;
 using RMSHOP.DAL.Models.category;
 using RMSHOP.DAL.Models.order;
 using RMSHOP.DAL.Models.product;
+using RMSHOP.DAL.Models.review;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace RMSHOP.DAL.Data
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,IHttpContextAccessor httpContextAccessor)
         :base(options)
