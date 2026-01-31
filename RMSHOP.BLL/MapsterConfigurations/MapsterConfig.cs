@@ -96,6 +96,10 @@ namespace RMSHOP.BLL.MapsterConfigurations
             TypeAdapterConfig<Review, ReviewResponse>.NewConfig()
                             .Map(dest => dest.FullName, source => source.User.FullName);
 
+            
+            TypeAdapterConfig<OrderItem, OrderItemResponse>.NewConfig()
+             .Map(dest => dest.Translations, source => source.Product.Translations);
+              
         }
 
     }
