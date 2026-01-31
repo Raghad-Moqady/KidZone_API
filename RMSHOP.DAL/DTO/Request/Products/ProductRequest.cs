@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RMSHOP.DAL.Models;
+using RMSHOP.DAL.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace RMSHOP.DAL.DTO.Request.Products
     public class ProductRequest
     {
         public decimal Price { get; set; }
+        [MinValue(2)]
         public decimal Discount { get; set; }
         public int Quantity { get; set; }
         public IFormFile MainImage { get; set; }
