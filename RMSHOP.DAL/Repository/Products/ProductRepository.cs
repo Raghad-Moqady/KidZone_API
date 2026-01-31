@@ -31,6 +31,8 @@ namespace RMSHOP.DAL.Repository.Products
                 .Include(p => p.Translations)
                 .Include(p => p.Category.Translations)
                 .Include(p=>p.SubImages)
+                .Include(p=> p.Reviews)
+                .ThenInclude(r=>r.User)
                 .FirstOrDefaultAsync(p=>p.Id==id);
         }
 

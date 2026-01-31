@@ -1,4 +1,5 @@
 ﻿using RMSHOP.DAL.Models.category;
+using RMSHOP.DAL.Models.review;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace RMSHOP.DAL.Models.product
         public List<ProductTranslation> Translations { get; set; }
 
         public List<ProductSubImage> SubImages { get; set; }
+        public List<Review>? Reviews { get; set; }
 
     }
 }

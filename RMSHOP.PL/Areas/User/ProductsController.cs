@@ -54,7 +54,7 @@ namespace RMSHOP.PL.Areas.User
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductDetails([FromRoute] int id,[FromQuery] string lang="en")
         {
-            var response= await _productService.GetProductDetailsForUserAsync(id, lang);
+            var response= await _productService.GetProductDetailsForUserAsync(id,lang);
             return Ok(new {message = _localizer["Success"].Value, product = response});
         }
 

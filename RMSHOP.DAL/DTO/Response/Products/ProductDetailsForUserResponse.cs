@@ -1,4 +1,6 @@
-﻿using RMSHOP.DAL.Models;
+﻿using RMSHOP.DAL.DTO.Response.Review;
+using RMSHOP.DAL.Models;
+using RMSHOP.DAL.Models.review;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,5 +28,6 @@ namespace RMSHOP.DAL.DTO.Response.Products
         public string MainImage { get; set; }
         //mapster edit 
         public List<string> SubImages {  get; set; }
-     }
+        public List<ReviewResponse> Reviews { get; set; }
+    }
 }

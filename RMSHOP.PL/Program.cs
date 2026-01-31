@@ -188,7 +188,7 @@ namespace RMSHOP.PL
             //{
             //    Console.WriteLine("Run");
             //});
-            app.UseMiddleware<CustomMiddleware>();
+            //app.UseMiddleware<CustomMiddleware>();
             app.Run();
         }
     }

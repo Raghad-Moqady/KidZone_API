@@ -3,10 +3,12 @@ using RMSHOP.DAL.DTO.Response.Cart;
 using RMSHOP.DAL.DTO.Response.Categories;
 using RMSHOP.DAL.DTO.Response.Orders;
 using RMSHOP.DAL.DTO.Response.Products;
+using RMSHOP.DAL.DTO.Response.Review;
 using RMSHOP.DAL.Models.cart;
 using RMSHOP.DAL.Models.category;
 using RMSHOP.DAL.Models.order;
 using RMSHOP.DAL.Models.product;
+using RMSHOP.DAL.Models.review;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +64,7 @@ namespace RMSHOP.BLL.MapsterConfigurations
                 
                 .Map(dest=>dest.MainImage, source=> $"https://localhost:7281/images/{source.MainImage}")
                 .Map(dest=> dest.SubImages, source => source.SubImages.Select(s=> $"https://localhost:7281/images/{s.ImageName}"))
-                ;
+                 ;
 
             TypeAdapterConfig<Cart, CartProductResponse>.NewConfig()
                 .Map(dest => dest.ProductName, source => source.Product.Translations
@@ -90,6 +92,9 @@ namespace RMSHOP.BLL.MapsterConfigurations
                .Map(dest => dest.City, source => source.User.City)
                .Map(dest => dest.Street, source => source.User.Street)
              ;
+
+            TypeAdapterConfig<Review, ReviewResponse>.NewConfig()
+                            .Map(dest => dest.FullName, source => source.User.FullName);
 
         }
 
