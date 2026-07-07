@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
@@ -25,15 +26,18 @@ namespace RMSHOP.BLL.Service.Identity
         private readonly IEmailSender _emailSender;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AuthenticationService(UserManager<ApplicationUser> userManager, IConfiguration configuration
-            ,IEmailSender emailSender , SignInManager<ApplicationUser> signInManager, ITokenService tokenService)
+            ,IEmailSender emailSender , SignInManager<ApplicationUser> signInManager, ITokenService tokenService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _configuration = configuration;
             _emailSender = emailSender;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
@@ -141,7 +145,7 @@ namespace RMSHOP.BLL.Service.Identity
                 //Send Email & Confirm Email 
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 token = Uri.EscapeDataString(token);
-                var emailUrl = $"http://localhost:5073/api/auth/Account/ConfirmEmail?token={token}&userId={user.Id}";
+                var emailUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/api/auth/Account/ConfirmEmail?token={token}&userId={user.Id}";
                 await _emailSender.SendEmailAsync(user.Email, "welcome to KidZone Store",
                     $@" <div style='text-align:center; font-family: Arial, sans-serif;'>
                     <h1 style='color:orange;'>Welcome {user.UserName}!</h1>
