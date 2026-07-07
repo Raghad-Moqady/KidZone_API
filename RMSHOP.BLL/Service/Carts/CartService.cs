@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using RMSHOP.DAL.DTO.Request.Cart;
 using RMSHOP.DAL.DTO.Response;
@@ -20,13 +21,15 @@ namespace RMSHOP.BLL.Service.Carts
         private readonly ICartRepository _cartRepository;
         private readonly IProductRepository _productRepository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CartService(ICartRepository cartRepository ,IProductRepository productRepository
-            ,UserManager<ApplicationUser> userManager)
+            ,UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _cartRepository = cartRepository;
             _productRepository = productRepository;
             _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<BaseResponse> AddToCartAsync(string userId, AddToCartRequest request)
         {
@@ -110,7 +113,10 @@ namespace RMSHOP.BLL.Service.Carts
         {
             //1. from Cart : (filter by user Id)
             var cartItems= await _cartRepository.GetCartItemsForUserAsync(userId);
-            var cartProducts = cartItems.BuildAdapter().AddParameters("lang",lang).AdaptToType<List<CartProductResponse>>();
+            var cartProducts = cartItems.BuildAdapter()
+                .AddParameters("lang",lang)
+                .AddParameters("scheme", _httpContextAccessor.HttpContext.Request.Scheme)
+                .AddParameters("host", _httpContextAccessor.HttpContext.Request.Host).AdaptToType<List<CartProductResponse>>();
             var cartSummary = new CartSummaryResponse
             {
                  CartProducts = cartProducts,

@@ -35,8 +35,8 @@ namespace RMSHOP.BLL.MapsterConfigurations
 
             TypeAdapterConfig<Product, ProductResponse>.NewConfig()
                .Map(dest => dest.CreatedBy, source => source.User.UserName)
-               .Map(dest => dest.MainImage, source => $"https://localhost:7281/images/{source.MainImage}")
-               .Map(dest=> dest.SubImages, source => source.SubImages.Select(s=> $"https://localhost:7281/images/{s.ImageName}").ToList());
+               .Map(dest => dest.MainImage, source => $"{MapContext.Current.Parameters["scheme"].ToString()}://{MapContext.Current.Parameters["host"].ToString()}/images/{source.MainImage}")
+               .Map(dest=> dest.SubImages, source => source.SubImages.Select(s=> $"{MapContext.Current.Parameters["scheme"].ToString()}://{MapContext.Current.Parameters["host"].ToString()}/images/{s.ImageName}").ToList());
         
            TypeAdapterConfig<Product,ProductUserResponse>.NewConfig()
                 .Map(dest=> dest.Name, source=>source.Translations
@@ -47,7 +47,7 @@ namespace RMSHOP.BLL.MapsterConfigurations
                 .Where(t=>t.Language== MapContext.Current.Parameters["lang"].ToString())
                 .Select(t=>t.Name).FirstOrDefault())
                 
-                .Map(dest=> dest.MainImage, source=> $"https://localhost:7281/images/{source.MainImage}");
+                .Map(dest=> dest.MainImage, source=> $"{MapContext.Current.Parameters["scheme"].ToString()}://{MapContext.Current.Parameters["host"].ToString()}/images/{source.MainImage}");
 
             TypeAdapterConfig<Product, ProductDetailsForUserResponse>.NewConfig()
                 .Map(dest => dest.Name, source => source.Translations
@@ -62,15 +62,15 @@ namespace RMSHOP.BLL.MapsterConfigurations
                 .Where(t=>t.Language== MapContext.Current.Parameters["lang"].ToString())
                 .Select(t=>t.Name).FirstOrDefault())
                 
-                .Map(dest=>dest.MainImage, source=> $"https://localhost:7281/images/{source.MainImage}")
-                .Map(dest=> dest.SubImages, source => source.SubImages.Select(s=> $"https://localhost:7281/images/{s.ImageName}"))
+                .Map(dest=>dest.MainImage, source=> $"{MapContext.Current.Parameters["scheme"].ToString()}://{MapContext.Current.Parameters["host"].ToString()}/images/{source.MainImage}")
+                .Map(dest=> dest.SubImages, source => source.SubImages.Select(s=> $"{MapContext.Current.Parameters["scheme"].ToString()}://{MapContext.Current.Parameters["host"].ToString()}/images/{s.ImageName}"))
                  ;
 
             TypeAdapterConfig<Cart, CartProductResponse>.NewConfig()
                 .Map(dest => dest.ProductName, source => source.Product.Translations
                 .FirstOrDefault(t=>t.Language== MapContext.Current.Parameters["lang"].ToString()).Name)
                 .Map(dest=>dest.Price, source=>source.Product.Price)
-                .Map(dest=>dest.MainImage, source=> $"https://localhost:7281/images/{source.Product.MainImage}")
+                .Map(dest=>dest.MainImage, source=> $"{MapContext.Current.Parameters["scheme"].ToString()}://{MapContext.Current.Parameters["host"].ToString()}/images/{source.Product.MainImage}")
                 .Map(dest=> dest.ProductCount, source=>source.Count)
                 .Map(dest=>dest.CategoryName, source=>source.Product.Category.Translations
                 .FirstOrDefault(t => t.Language == MapContext.Current.Parameters["lang"].ToString()).Name)

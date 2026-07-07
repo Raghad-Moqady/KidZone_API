@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using RMSHOP.DAL.DTO.Request.Checkout;
@@ -27,12 +28,14 @@ namespace RMSHOP.BLL.Service.Checkout
         private readonly IEmailSender _emailSender;
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CheckoutService(ICartRepository cartRepository, IOrderRepository orderRepository,
             UserManager<ApplicationUser> userManager,
             IEmailSender emailSender,
             IOrderItemRepository orderItemRepository,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            IHttpContextAccessor httpContextAccessor)
         {
             _cartRepository = cartRepository;
             _orderRepository = orderRepository;
@@ -40,6 +43,7 @@ namespace RMSHOP.BLL.Service.Checkout
             _emailSender = emailSender;
             _orderItemRepository = orderItemRepository;
             _productRepository = productRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<CheckoutResponse> CheckoutAsync(string userId, CheckoutRequest request)
         {
@@ -103,8 +107,8 @@ namespace RMSHOP.BLL.Service.Checkout
                     PaymentMethodTypes = new List<string> { "card" },
                     LineItems = new List<SessionLineItemOptions>(),
                     Mode = "payment",
-                    SuccessUrl = $"https://localhost:7281/api/checkouts/success?session_id={{CHECKOUT_SESSION_ID}}",
-                    CancelUrl = $"https://localhost:7281/api/checkouts/cancel",
+                    SuccessUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/api/checkouts/success?session_id={{CHECKOUT_SESSION_ID}}",
+                    CancelUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}/api/checkouts/cancel",
                     Metadata= new Dictionary<string, string>
                     {
                         {"UserId", userId },

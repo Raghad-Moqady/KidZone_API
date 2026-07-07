@@ -1,4 +1,6 @@
-﻿using Mapster;
+﻿using Azure;
+using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RMSHOP.DAL.DTO.Request.Products;
 using RMSHOP.DAL.DTO.Response;
@@ -11,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RMSHOP.BLL.Service.Products
 {
@@ -18,11 +21,13 @@ namespace RMSHOP.BLL.Service.Products
     {
         private readonly IProductRepository _productRepository;
         private readonly IFileService _fileService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductService(IProductRepository productRepository, IFileService fileService)
+        public ProductService(IProductRepository productRepository, IFileService fileService, IHttpContextAccessor httpContextAccessor)
         {
             _productRepository = productRepository;
             _fileService = fileService;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<ProductResponse> CreateProductAsync(ProductRequest request)
         {
@@ -46,20 +51,24 @@ namespace RMSHOP.BLL.Service.Products
                 }
             }
             var result= await _productRepository.CreateProductAsync(product);
-            return result.Adapt<ProductResponse>();
+            return result.BuildAdapter().AddParameters("scheme", _httpContextAccessor.HttpContext.Request.Scheme).AddParameters("host", _httpContextAccessor.HttpContext.Request.Host).AdaptToType<ProductResponse>();
+
         }
 
         public async Task<List<ProductResponse>> GetAllAsync()
         {
-             var response= await _productRepository.GetAllAsync();
-             return response.Adapt<List<ProductResponse>>();
+            var response = await _productRepository.GetAllAsync();
+            return response.BuildAdapter().AddParameters("scheme", _httpContextAccessor.HttpContext.Request.Scheme).AddParameters("host", _httpContextAccessor.HttpContext.Request.Host).AdaptToType<List<ProductResponse>>();
         }
 
 
         public async Task<List<ProductUserResponse>> GetAllProductsByCategoryForUserAsync(int categoryId, string lang)
         {
             var filteredProducts = await _productRepository.GetAllProductsByCategoryForUserAsync(categoryId);
-            return filteredProducts.BuildAdapter().AddParameters("lang",lang).AdaptToType<List<ProductUserResponse>>();
+            return filteredProducts.BuildAdapter()
+                .AddParameters("lang",lang)
+                .AddParameters("scheme", _httpContextAccessor.HttpContext.Request.Scheme)
+                .AddParameters("host", _httpContextAccessor.HttpContext.Request.Host).AdaptToType<List<ProductUserResponse>>();
         }
         public async Task<PaginatedResponse<ProductUserResponse>> GetAllForUserAsync(
             string lang,
@@ -122,7 +131,10 @@ namespace RMSHOP.BLL.Service.Products
             //2*. Pagination
             query= query.Skip((page - 1) * limit).Take(limit);
              
-            var response= query.BuildAdapter().AddParameters("lang",lang).AdaptToType<List<ProductUserResponse>>();
+            var response= query.BuildAdapter()
+                .AddParameters("lang",lang)
+                .AddParameters("scheme", _httpContextAccessor.HttpContext.Request.Scheme)
+                .AddParameters("host", _httpContextAccessor.HttpContext.Request.Host).AdaptToType<List<ProductUserResponse>>();
 
             return new PaginatedResponse<ProductUserResponse>()
             {
@@ -137,7 +149,10 @@ namespace RMSHOP.BLL.Service.Products
         public async Task<ProductDetailsForUserResponse> GetProductDetailsForUserAsync(int id, string lang)
         {
             var product = await _productRepository.FindProductById(id);
-            return product.BuildAdapter().AddParameters("lang",lang).AdaptToType<ProductDetailsForUserResponse>();
+            return product.BuildAdapter()
+                .AddParameters("lang",lang)
+                .AddParameters("scheme", _httpContextAccessor.HttpContext.Request.Scheme)
+                .AddParameters("host", _httpContextAccessor.HttpContext.Request.Host).AdaptToType<ProductDetailsForUserResponse>();
         }
     }
 }
