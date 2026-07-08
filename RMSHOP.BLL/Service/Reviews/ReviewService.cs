@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using RMSHOP.DAL.DTO.Request.Review;
 using RMSHOP.DAL.DTO.Response;
 using RMSHOP.DAL.Models;
@@ -90,6 +91,13 @@ namespace RMSHOP.BLL.Service.Reviews
             response.UserId= userId;
             response.ProductId= productId;
             await _reviewRepository.AddReviewAsync(response);
+
+            // Update total product rate:
+            product.Rate = Math.Round(
+                product.Reviews.Average(r=>r.Rating),1);
+          
+            await _productRepository.UpdateProductAsync(product);
+ 
             //200
             return new BaseResponse()
             {

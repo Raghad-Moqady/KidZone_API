@@ -1,4 +1,5 @@
 ﻿using RMSHOP.DAL.DTO.Response;
+using RMSHOP.DAL.Models.category;
 using RMSHOP.DAL.Models.product;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,7 @@ namespace RMSHOP.DAL.Repository.Products
         IQueryable<Product> Query();
         Task<Product?> FindProductById(int id);
         Task<bool> DecreaseProductsQuantityAsync(List<(int productId, int quantity)> productsToDecreaseQuantity);
+
+        Task UpdateProductAsync(Product product);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RMSHOP.DAL.Data;
 using RMSHOP.DAL.DTO.Response;
+using RMSHOP.DAL.Models.category;
 using RMSHOP.DAL.Models.product;
 using System;
 using System.Collections.Generic;
@@ -91,5 +92,10 @@ namespace RMSHOP.DAL.Repository.Products
 
         }
 
+        public async Task UpdateProductAsync(Product product)
+        {
+            _context.Update(product);
+            await _context.SaveChangesAsync();
+        }
     }
 }
