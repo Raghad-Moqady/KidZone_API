@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace RMSHOP.DAL.DTO.Response.Products
@@ -13,6 +14,8 @@ namespace RMSHOP.DAL.DTO.Response.Products
     public class ProductDetailsForUserResponse
     {
         public int Id { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public Status Status { get; set; }
 
         //mapster from Include Translations(lang)
         public string Name { get; set; }
